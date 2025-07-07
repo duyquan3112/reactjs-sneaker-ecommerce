@@ -1,12 +1,13 @@
-import React from "react";
 import TopBar from "../Layouts/TopBar.jsx";
+import NavBar from "./NavBar.jsx";
 
 function Header() {
   return (
-    <div>
+    <header>
       {/* TopBar */}
       <TopBar />
-    </div>
+      <NavBar />
+    </header>
   );
 }
 

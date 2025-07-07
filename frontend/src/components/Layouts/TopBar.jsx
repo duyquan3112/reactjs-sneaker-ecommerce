@@ -1,4 +1,3 @@
-import React from "react";
 import { IoLogoInstagram, IoLogoFacebook } from "react-icons/io";
 import { IoLogoTiktok } from "react-icons/io5";
 
