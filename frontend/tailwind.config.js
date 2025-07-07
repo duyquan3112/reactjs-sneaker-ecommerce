@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         title: ['"Poppins"', "sans-serif"],
       },
+      colors: {
+        "topbar-black": "#161616",
+      },
     },
   },
   plugins: [],

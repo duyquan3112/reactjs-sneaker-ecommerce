@@ -1,1 +1,3 @@
 .DS_Store
+# Ignore node_modules directory
+./frontend/node_modules/
