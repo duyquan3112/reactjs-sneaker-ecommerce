@@ -8,6 +8,7 @@ export default {
       },
       colors: {
         "topbar-black": "#161616",
+        "icon-gray": "#374151",
       },
     },
   },

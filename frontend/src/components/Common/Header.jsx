@@ -3,7 +3,7 @@ import NavBar from "./NavBar.jsx";
 
 function Header() {
   return (
-    <header>
+    <header className="border-b border-gray-200">
       {/* TopBar */}
       <TopBar />
       <NavBar />

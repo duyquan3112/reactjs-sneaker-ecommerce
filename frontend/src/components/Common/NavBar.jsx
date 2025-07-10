@@ -4,6 +4,9 @@ import {
   HiOutlineShoppingBag,
   HiMiniBars3BottomRight
 } from "react-icons/hi2";
+import { SearchBar } from "./SearchBar.jsx";
+import { useState } from "react";
+import CartDrawer from "../Layouts/CartDrawer.jsx";
 
 function NavBar() {
   const mainCategories = [
@@ -28,16 +31,27 @@ function NavBar() {
       route: "#"
     }
   ];
+
+  const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
+
+  const handleToggleCartDrawer = () => {
+    setIsCartDrawerOpen((isCartDrawerOpen) => !isCartDrawerOpen);
+  };
+
   return (
     <>
       <nav className="container mx-auto flex items-center justify-between px-6 py-4">
         <div>
-          <Link to="/">
+          <Link
+            to="/"
+            className="flex items-center justify-center space-x-4 group"
+          >
             <img
               src="/logo-2x.png"
               alt="Brand Logo"
-              className="object-contain h-14 w-14 hover:scale-110 hover:rotate-12 transition-all duration-300 ease-in-out min-h-10 min-w-10"
+              className="object-contain h-8 w-8 scale-125 group-hover:scale-150 group-hover:rotate-12 transition-all duration-300 ease-in-out min-h-8 min-w-8"
             />
+            <span className="font-title font-semibold text-lg">Dee Vu</span>
           </Link>
         </div>
         <div className="hidden md:flex space-x-6">
@@ -45,27 +59,36 @@ function NavBar() {
             <Link
               key={cat.index}
               to={cat.route}
-              className="text-gray-700 hover:text-black text-sm font-medium uppercase"
+              className="relative text-icon-gray hover:text-black hover:scale-105 text-sm font-medium uppercase group"
             >
               {cat.name}
+              <span className="absolute left-1/2 -bottom-1 h-0.5 w-full bg-gray-600 scale-x-0 origin-center transition-transform duration-300 group-hover:scale-x-100 -translate-x-1/2"></span>
             </Link>
           ))}
         </div>
         <div className="flex items-center space-x-4">
-          <Link to="/profile" className="hover:text-black">
-            <HiOutlineUserCircle className="h-7 w-7 text-gray-700" />
+          <Link to="/profile">
+            <HiOutlineUserCircle className="h-7 w-7 text-icon-gray hover:text-black hover:scale-105" />
           </Link>
-          <button className="relative hover:text-black">
-            <HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
+          <button onClick={handleToggleCartDrawer} className="relative">
+            <HiOutlineShoppingBag className="h-6 w-6 text-icon-gray  hover:text-black hover:scale-105" />
             <span className="absolute -top-1 bg-red-600 text-white text-xs rounded-full px-2 py-0.5">
               4
             </span>
           </button>
+          <div className="overflow-hidden">
+            <SearchBar />
+          </div>
+
           <button className="md:hidden">
-            <HiMiniBars3BottomRight className="h-6 w-6 text-gray-700" />
+            <HiMiniBars3BottomRight className="h-6 w-6 text-icon-gray" />
           </button>
         </div>
       </nav>
+      <CartDrawer
+        isCartDrawerOpen={isCartDrawerOpen}
+        toggleCartDrawer={handleToggleCartDrawer}
+      />
     </>
   );
 }
