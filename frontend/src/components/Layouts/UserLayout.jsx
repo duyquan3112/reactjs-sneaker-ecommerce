@@ -1,5 +1,5 @@
-import React from "react";
 import Header from "../Common/Header.jsx";
+import Footer from "../Common/Footer.jsx";
 
 function UserLayout() {
   return (
@@ -8,6 +8,7 @@ function UserLayout() {
       <Header />
       {/* Main */}
       {/* Footer */}
+      <Footer />
     </div>
   );
 }
