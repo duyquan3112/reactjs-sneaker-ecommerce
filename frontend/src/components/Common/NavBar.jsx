@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import {
   HiOutlineUserCircle,
   HiOutlineShoppingBag,
-  HiMiniBars3BottomRight
+  HiMiniBars3BottomRight,
 } from "react-icons/hi2";
 import { SearchBar } from "./SearchBar.jsx";
 import { useState } from "react";
@@ -41,19 +41,19 @@ function NavBar() {
             <span className="font-title font-semibold text-lg">Dee Vu</span>
           </Link>
         </div>
-        <div className="hidden md:flex space-x-6">
+        <div className="hidden md:flex gap-6">
           {mainCategories.map((cat) => (
             <Link
               key={cat.index}
               to={cat.route}
-              className="relative text-icon-gray md:hover:text-black md:hover:scale-105 text-sm font-medium uppercase group"
+              className="relative text-icon-gray md:hover:text-black text-sm font-medium uppercase group"
             >
               {cat.name}
               <span className="absolute left-1/2 -bottom-1 h-0.5 w-full bg-gray-600 scale-x-0 origin-center transition-transform duration-300 group-hover:scale-x-100 -translate-x-1/2"></span>
             </Link>
           ))}
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center gap-6">
           <Link to="/profile">
             <HiOutlineUserCircle className="h-7 w-7 text-icon-gray md:hover:text-black md:hover:scale-105" />
           </Link>
@@ -66,7 +66,6 @@ function NavBar() {
           <div className="overflow-hidden">
             <SearchBar />
           </div>
-
           <button onClick={handleOpenMobileNavBar} className="md:hidden">
             <HiMiniBars3BottomRight className="h-6 w-6 text-icon-gray" />
           </button>

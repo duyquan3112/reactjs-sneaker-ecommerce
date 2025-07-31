@@ -19,7 +19,7 @@ function TopBar() {
         <div className="text-sm text-center flex-grow">
           <span>We Don't Just Sell Shoes, We Walk With You</span>
         </div>
-        <div className="hidden md:block text-sm">
+        <div className="hidden md:block text-xs">
           <a href="tel:+84778906231" className="hover:text-gray-300 ">
             +84 77 890 6231
           </a>

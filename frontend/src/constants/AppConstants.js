@@ -3,24 +3,73 @@ const AppConstants = {
     {
       index: 1,
       name: "men",
-      route: "#"
+      route: "#",
     },
     {
       index: 2,
       name: "women",
-      route: "#"
+      route: "#",
     },
     {
       index: 3,
       name: "kids",
-      route: "#"
+      route: "#",
     },
     {
       index: 4,
       name: "for sale",
-      route: "#"
-    }
-  ]
+      route: "#",
+    },
+    {
+      index: 5,
+      name: "new arrivals",
+      route: "#",
+    },
+  ],
+  relativeLinks: [
+    {
+      index: 1,
+      name: "home",
+      route: "#",
+    },
+    {
+      index: 2,
+      name: "About Us",
+      route: "#",
+    },
+    {
+      index: 3,
+      name: "Contact Us",
+      route: "#",
+    },
+    {
+      index: 4,
+      name: "Blog",
+      route: "#",
+    },
+  ],
+  supportLinks: [
+    {
+      index: 1,
+      name: "Warranty Policies",
+      route: "#",
+    },
+    {
+      index: 2,
+      name: "Return Policies",
+      route: "#",
+    },
+    {
+      index: 3,
+      name: "Delivery Policies",
+      route: "#",
+    },
+    {
+      index: 4,
+      name: "Payment Policies",
+      route: "#",
+    },
+  ],
 };
 
 export default AppConstants;

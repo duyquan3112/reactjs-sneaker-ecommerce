@@ -6,7 +6,7 @@ const CartList = () => {
   return (
     <div className="w-full">
       {items.map((items, index) => (
-        <CartItem key={index} item={items} />
+        <CartItem key={index} item={items} index={index} />
       ))}
     </div>
   );

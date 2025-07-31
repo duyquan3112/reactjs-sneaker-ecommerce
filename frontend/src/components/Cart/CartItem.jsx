@@ -1,7 +1,7 @@
 import { MdDeleteOutline } from "react-icons/md";
 import FormatUtil from "../../utils/FormatUtil.js";
 
-const CartItem = ({ item }) => {
+const CartItem = ({ item, index }) => {
   return (
     <div className="flex items-start border-b py-4 w-full">
       <img
@@ -40,7 +40,7 @@ const CartItem = ({ item }) => {
         </div>
         <div className="relative flex items-center">
           <input
-            id="check"
+            id={`check-${index}`}
             className="peer h-5 w-5 appearance-none cursor-pointer transition-all duration-200 shadow md:hover:shadow-sm border border-slate-300  checked:bg-topbar-black checked:border-slate-800 rounded"
             type="checkbox"
           />
