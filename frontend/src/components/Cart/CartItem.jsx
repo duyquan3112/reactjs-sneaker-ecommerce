@@ -30,7 +30,7 @@ const CartItem = ({ item, index }) => {
             </button>
           </div>
           <p className="text-sm space-x-2 mt-2">
-            <span className="text-red-500 font-semibold">
+            <span className="text-black font-semibold">
               {FormatUtil.formatPrice(item.price * 0.8)}
             </span>
             <span className="text-xs italic line-through text-gray-400">

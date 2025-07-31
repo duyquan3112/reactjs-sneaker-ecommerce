@@ -1,3 +1,5 @@
+import PrimaryButton from "../Buttons/PrimaryButton.jsx";
+
 const FooterSubscribe = () => {
   return (
     <div className="col-span-1 md:col-span-2">
@@ -6,19 +8,14 @@ const FooterSubscribe = () => {
         Subscribe to our newsletter to get the latest news and updates.
       </p>
       <form id="subscribe-form" className="mt-4">
-        <div className="flex md:flex-row flex-col items-start md:gap-2 gap-4">
+        <div className="flex md:flex-row flex-col items-start md:items-end md:gap-2 gap-4">
           <input
             id="subscribe-email"
             type="email"
             placeholder="Enter your email"
             className="focus:outline-none w-full md:w-[50%] border-b py-1 border-gray-300"
           />
-          <button
-            className="bg-topbar-black hover:bg-topbar-black/80 text-white px-4 py-1 rounded-md"
-            type="submit"
-          >
-            Subscibe
-          </button>
+          <PrimaryButton type="submit">Subscibe</PrimaryButton>
         </div>
       </form>
     </div>
