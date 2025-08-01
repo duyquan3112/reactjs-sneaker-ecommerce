@@ -22,11 +22,11 @@ const MobileMenuDrawer = ({ isMobileNavBarOpen, handleOpenMobileNavBar }) => {
       {isMobileNavBarOpen && (
         <div
           onClick={handleOpenMobileNavBar}
-          className="fixed inset-0 bg-black bg-opacity-25 z-9 transition-opacity duration-300"
+          className="fixed inset-0 bg-black bg-opacity-25 z-40 transition-opacity duration-300"
         ></div>
       )}
       <div
-        className={`fixed top-0 left-0 bg-white w-3/4 sm:w-1/2 md:w-1/3 h-full shadow-lg transform transition-transform duration-300 z-10 ${
+        className={`fixed top-0 left-0 bg-white w-3/4 sm:w-1/2 md:w-1/3 h-full shadow-lg transform transition-transform duration-300 z-50 ${
           isMobileNavBarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

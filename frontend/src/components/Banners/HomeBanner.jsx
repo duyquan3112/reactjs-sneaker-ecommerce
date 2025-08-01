@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MockupData from "../../mocks/MockupData";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 
-const HomeBannerComponent = () => {
+const HomeBanner = () => {
   const bannerData = MockupData.homeBannerData;
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -102,4 +102,4 @@ const HomeBannerComponent = () => {
   );
 };
 
-export default React.memo(HomeBannerComponent);
+export default React.memo(HomeBanner);

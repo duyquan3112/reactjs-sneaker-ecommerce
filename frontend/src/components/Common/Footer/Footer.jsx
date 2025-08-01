@@ -7,7 +7,7 @@ import FooterCopyRight from "./FooterCopyRight.jsx";
 
 const Footer = () => {
   return (
-    <footer className="mt-auto border-t py-12 md:px-24 px-4 w-full bg-white">
+    <footer className="mt-auto border-t py-8 md:px-20 px-4 w-full bg-white">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-6 gap-12 px-4 lg:px-0">
         <FooterStoreInfo />
         <FooterNavLink />

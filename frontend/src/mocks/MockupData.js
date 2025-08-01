@@ -167,6 +167,15 @@ const MockupData = {
       isNew: true,
     },
   ],
+  newArrivalBannerData: {
+    id: "banner-1",
+    image: "https://picsum.photos/seed/p001/120/120",
+    route: "/",
+  },
+  customerFeedbackData: {
+    id: "feedback-1",
+    image: "https://picsum.photos/seed/p001/120/120",
+  },
 };
 
 export default MockupData;

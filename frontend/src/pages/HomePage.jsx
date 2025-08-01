@@ -1,10 +1,10 @@
-import HomeBannerComponent from "../components/Banners/HomeBannerComponent.jsx";
+import HomeBanner from "../components/Banners/HomeBanner.jsx";
 import Products from "../components/Products/Products.jsx";
 
 const HomePage = () => {
   return (
     <>
-      <HomeBannerComponent />
+      <HomeBanner />
       <Products />
     </>
   );

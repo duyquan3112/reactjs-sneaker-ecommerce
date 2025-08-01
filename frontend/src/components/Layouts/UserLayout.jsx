@@ -4,14 +4,11 @@ import Footer from "../Common/Footer/Footer.jsx";
 
 function UserLayout() {
   return (
-    <div className="h-full min-h-screen flex flex-col">
-      {/* Header - Luôn cố định */}
+    <div className="min-h-screen flex flex-col">
       <Header />
-      {/* Main - Nội dung thay đổi theo route */}
       <main className="flex-1">
         <Outlet />
       </main>
-      {/* Footer - Luôn cố định */}
       <Footer />
     </div>
   );

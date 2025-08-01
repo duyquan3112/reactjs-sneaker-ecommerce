@@ -3,7 +3,7 @@ import { IoLogoTiktok } from "react-icons/io5";
 
 function TopBar() {
   return (
-    <div className="bg-topbar-black text-white">
+    <div className="hidden md:block bg-topbar-black text-white">
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
         <div className="hidden md:flex items-center space-x-4">
           <a href="#" className="hover:text-gray-300">
@@ -16,9 +16,9 @@ function TopBar() {
             <IoLogoTiktok className="h-4 w-4" />
           </a>
         </div>
-        <div className="text-sm text-center flex-grow">
+        {/* <div className="text-sm text-center flex-grow">
           <span>We Don't Just Sell Shoes, We Walk With You</span>
-        </div>
+        </div> */}
         <div className="hidden md:block text-xs">
           <a href="tel:+84778906231" className="hover:text-gray-300 ">
             +84 77 890 6231

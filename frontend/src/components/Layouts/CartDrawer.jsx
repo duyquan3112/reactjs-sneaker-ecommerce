@@ -1,6 +1,7 @@
 import { IoMdClose } from "react-icons/io";
 import CartList from "../Cart/CartList.jsx";
 import { useEffect } from "react";
+import PrimaryButton from "../Common/Buttons/PrimaryButton.jsx";
 
 const CartDrawer = ({ isCartDrawerOpen, toggleCartDrawer }) => {
   useEffect(() => {
@@ -20,12 +21,12 @@ const CartDrawer = ({ isCartDrawerOpen, toggleCartDrawer }) => {
       {/* Overlay */}
       {isCartDrawerOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-25 z-9 transition-opacity duration-300"
+          className="fixed inset-0 bg-black bg-opacity-25 z-40 transition-opacity duration-300"
           onClick={toggleCartDrawer}
         ></div>
       )}
       <div
-        className={`fixed top-0 right-0 w-3/4 h-full sm:w-1/2 md:w-[30rem] bg-white flex flex-col transition-transform duration-300 shadow-lg z-10 ${
+        className={`fixed top-0 right-0 w-3/4 h-full sm:w-1/2 md:w-[30rem] bg-white flex flex-col transition-transform duration-300 shadow-lg z-50 ${
           isCartDrawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -39,9 +40,7 @@ const CartDrawer = ({ isCartDrawerOpen, toggleCartDrawer }) => {
           <CartList />
         </div>
         <div className="sticky bottom-0 bg-white p-4 w-full mx-auto">
-          <button className="bg-topbar-black md:hover:bg-gray-800 transition py-2 text-white w-full rounded-lg shadow-sm font-semibold">
-            Check Out
-          </button>
+          <PrimaryButton className="w-full">Check Out</PrimaryButton>
           <p className="italic tracking-tighter text-xs text-gray-700 mt-2 text-center">
             Shipping, taxes and discount voucher will be displayed in checkout
             page.
