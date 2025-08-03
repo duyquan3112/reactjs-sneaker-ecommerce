@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MockupData from "../../mocks/MockupData";
+import MockupData from "../../../mocks/MockupData";
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
 
 const HomeBanner = () => {
@@ -47,15 +47,13 @@ const HomeBanner = () => {
   };
 
   return (
-    <div className="relative w-full h-[15rem] md:h-[32rem] overflow-hidden">
+    <div className="relative w-full xl:w-[80%] mx-auto aspect-[16/9] overflow-hidden">
       <div className="relative w-full h-full">
         {bannerData.map((banner, index) => (
           <div
             key={banner.id}
-            className={`absolute inset-0 transition-all duration-300 ease-in-out ${
-              index === currentIndex
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-105"
+            className={`absolute inset-0 transition-all duration-300 ${
+              index === currentIndex ? "block" : "hidden"
             }`}
           >
             <img

@@ -16,12 +16,12 @@ const ProductCard = ({
   return (
     <button
       className={classMerge(
-        "col-span-1 min-w-[12rem] shadow-sm rounded-md overflow-hidden",
+        "col-span-1 w-full min-w-[12rem] shadow-sm rounded-md overflow-hidden",
         className
       )}
       onClick={onClick}
     >
-      <div className={classMerge("w-full h-[19rem]", imageClassName)}>
+      <div className={classMerge("w-full aspect-[3/4]", imageClassName)}>
         <img
           src={product.image}
           alt={product.title}

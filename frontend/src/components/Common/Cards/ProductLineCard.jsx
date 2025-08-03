@@ -1,13 +1,15 @@
 const ProductLineCard = ({ image, title, onClick }) => {
   return (
-    <button className="flex flex-col gap-6 items-center" onClick={onClick}>
-      <div className="w-[14rem] h-[22rem] md:w-[24rem] md:h-[32rem]">
-        <img
-          src={image}
-          alt="Line Picture"
-          className="w-full h-full object-cover rounded-md shadow-md"
-        />
-      </div>
+    <button
+      className="flex flex-col gap-6 items-center w-full min-w-[14rem]"
+      onClick={onClick}
+    >
+      <img
+        src={image}
+        alt="Line Picture"
+        className="aspect-[9/16] w-full object-cover rounded-md shadow-md"
+      />
+
       <p className="font-semibold text-gray-500 text-center">{title}</p>
     </button>
   );
