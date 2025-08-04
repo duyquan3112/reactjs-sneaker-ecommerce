@@ -1,10 +1,10 @@
-import HomeBanner from "../components/Common/Banners/HomeBanner.jsx";
+import CarouselBanner from "../components/Banners/Common/CarouselBanner.jsx";
 import Products from "../components/Products/Products.jsx";
 
 const HomePage = () => {
   return (
     <>
-      <HomeBanner />
+      <CarouselBanner />
       <Products />
     </>
   );

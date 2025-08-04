@@ -176,6 +176,7 @@ const MockupData = {
     id: "feedback-1",
     image: "https://picsum.photos/seed/p001/120/120",
   },
+  pageBannerImage: "https://picsum.photos/seed/p002/120/120",
 };
 
 export default MockupData;

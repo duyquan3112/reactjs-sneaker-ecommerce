@@ -1,4 +1,4 @@
-import TopBar from "../Layouts/TopBar.jsx";
+import TopBar from "./TopBar.jsx";
 import NavBar from "./NavBar.jsx";
 
 function Header() {

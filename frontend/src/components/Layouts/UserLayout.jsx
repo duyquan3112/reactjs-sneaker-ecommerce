@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import Header from "../Common/Header.jsx";
+import Header from "./Header.jsx";
 import Footer from "../Common/Footer/Footer.jsx";
 
 function UserLayout() {

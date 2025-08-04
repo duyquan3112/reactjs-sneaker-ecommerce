@@ -8,12 +8,12 @@ const FooterSubscribe = () => {
         Subscribe to our newsletter to get the latest news and updates.
       </p>
       <form id="subscribe-form" className="mt-4">
-        <div className="flex lg:flex-row flex-col items-start lg:items-end lg:gap-2 gap-4">
+        <div className="flex lg:flex-row flex-col items-start lg:items-end lg:gap-2 gap-4 w-full">
           <input
             id="subscribe-email"
             type="email"
             placeholder="Enter your email"
-            className="focus:outline-none w-full lg:w-[50%] border-b py-1 border-gray-300"
+            className="focus:outline-none w-[80%] lg:w-[50%] border-b py-1 border-gray-300"
           />
           <PrimaryButton type="submit">Subscibe</PrimaryButton>
         </div>

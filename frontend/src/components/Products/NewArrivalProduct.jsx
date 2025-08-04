@@ -1,5 +1,5 @@
 import OutlineButton from "../Common/Buttons/OutlineButton.jsx";
-import NewArrivalBanner from "../Common/Banners/NewArrivalBanner.jsx";
+import NewArrivalBanner from "../Banners/Products/NewArrivalBanner.jsx";
 
 const NewArrivalProduct = () => {
   return (

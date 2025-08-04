@@ -4,11 +4,11 @@ import {
   HiOutlineShoppingBag,
   HiMiniBars3BottomRight,
 } from "react-icons/hi2";
-import { SearchBar } from "./SearchBar.jsx";
+import { SearchBar } from "../Common/Forms/SearchBar.jsx";
 import { useState } from "react";
-import CartDrawer from "../Layouts/CartDrawer.jsx";
+import CartDrawer from "./CartDrawer.jsx";
 import AppConstants from "../../constants/AppConstants.js";
-import MobileMenuDrawer from "../Layouts/MobileMenuDrawer.jsx";
+import MobileMenuDrawer from "./MobileMenuDrawer.jsx";
 
 function NavBar() {
   const mainCategories = AppConstants.mainCategories;
