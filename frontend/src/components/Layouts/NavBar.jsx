@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 import {
   HiOutlineUserCircle,
   HiOutlineShoppingBag,
@@ -9,6 +9,7 @@ import { useState } from "react";
 import CartDrawer from "./CartDrawer.jsx";
 import AppConstants from "../../constants/AppConstants.js";
 import MobileMenuDrawer from "./MobileMenuDrawer.jsx";
+import PATH from "../../routes/path.js";
 
 function NavBar() {
   const mainCategories = AppConstants.mainCategories;
@@ -28,29 +29,31 @@ function NavBar() {
   return (
     <>
       <nav className="container mx-auto flex items-center justify-between px-6 py-4">
-        <div>
-          <Link
-            to="/"
-            className="flex items-center justify-center space-x-4 group"
-          >
-            <img
-              src="/logo-2x.png"
-              alt="Brand Logo"
-              className="object-contain h-8 w-8 scale-125 md:group-hover:scale-150 md:group-hover:rotate-12 transition-all duration-300 ease-in-out min-h-8 min-w-8"
-            />
-            <span className="font-title font-semibold text-lg">Dee Vu</span>
-          </Link>
-        </div>
+        <Link
+          to={PATH.HOME}
+          className="flex items-center justify-center space-x-4 group"
+        >
+          <img
+            src="/logo-2x.png"
+            alt="Brand Logo"
+            className="object-contain h-8 w-8 scale-125 md:group-hover:scale-150 md:group-hover:rotate-12 transition-all duration-300 ease-in-out min-h-8 min-w-8"
+          />
+          <span className="font-title font-semibold text-lg">Dee Vu</span>
+        </Link>
         <div className="hidden md:flex gap-6">
           {mainCategories.map((cat) => (
-            <Link
+            <NavLink
               key={cat.index}
               to={cat.route}
-              className="relative text-icon-gray md:hover:text-black text-sm font-medium uppercase group"
+              className={({ isActive }) =>
+                `relative text-icon-gray md:hover:text-black text-sm font-medium uppercase group ${
+                  isActive ? "text-black" : ""
+                }`
+              }
             >
               {cat.name}
               <span className="absolute left-1/2 -bottom-1 h-0.5 w-full bg-gray-600 scale-x-0 origin-center transition-transform duration-300 group-hover:scale-x-100 -translate-x-1/2"></span>
-            </Link>
+            </NavLink>
           ))}
         </div>
         <div className="flex items-center gap-6">

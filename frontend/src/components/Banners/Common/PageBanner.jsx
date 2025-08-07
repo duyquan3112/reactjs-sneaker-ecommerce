@@ -2,7 +2,10 @@ import React from "react";
 
 const PageBanner = ({ title, bannerImage }) => {
   return (
-    <div className="relative w-full max-h-[20rem] aspect-[16/9] overflow-hidden">
+    <div
+      id="page-banner"
+      className="relative w-full max-h-[20rem] aspect-[16/9] overflow-hidden"
+    >
       <img
         src={bannerImage}
         alt="Page Banner"
