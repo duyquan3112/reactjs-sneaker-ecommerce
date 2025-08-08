@@ -70,6 +70,7 @@ const AppConstants = {
       route: "#",
     },
   ],
+  mobileWidth: 640,
 };
 
 export default AppConstants;

@@ -3,12 +3,13 @@ import PaginationButton from "./PaginationButton.jsx";
 import useWindowSize from "../../../hooks/useWindowSize.jsx";
 import ChangePageButton from "./ChangePageButton.jsx";
 import { scrollToPosition } from "../../../utils/ScrollUtil.js";
+import AppConstants from "../../../constants/AppConstants.js";
 
 const PaginationList = ({ totalPages, onPageChange }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [bannerHeight, setBannerHeight] = useState(0);
   const { width } = useWindowSize();
-  const isMobile = width < 640;
+  const isMobile = width < AppConstants.mobileWidth;
 
   useEffect(() => {
     const bannerHeight =
@@ -17,6 +18,7 @@ const PaginationList = ({ totalPages, onPageChange }) => {
   }, []);
 
   const handlePageChange = (page) => {
+    if (page === currentPage) return;
     setCurrentPage(page);
     onPageChange(page);
     scrollToPosition(bannerHeight);
