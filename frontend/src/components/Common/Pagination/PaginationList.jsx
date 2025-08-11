@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PaginationButton from "./PaginationButton.jsx";
-import useWindowSize from "../../../hooks/useWindowSize.jsx";
+import useWindowSize from "../../../hooks/Responsive/useWindowSize.jsx";
 import ChangePageButton from "./ChangePageButton.jsx";
 import { scrollToPosition } from "../../../utils/ScrollUtil.js";
 import AppConstants from "../../../constants/AppConstants.js";
