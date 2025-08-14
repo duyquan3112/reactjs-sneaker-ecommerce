@@ -13,7 +13,8 @@ export const errorHandler = (
     const body: IBaseErrorResponse = {
       status: false,
       error: {
-        message: error.message || error.details,
+        message: error.message,
+        detail: error.details,
         code: error.errorCode
       }
     };

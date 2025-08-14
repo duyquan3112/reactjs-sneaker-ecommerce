@@ -5,7 +5,8 @@ export interface IBaseResponse<T> {
 }
 
 export interface IBaseError {
-  message: string | string[];
+  message: string;
+  detail?: any;
   code?: string; // Optional code: 'NOT_FOUND', 'VALIDATION_ERROR'...
 }
 
