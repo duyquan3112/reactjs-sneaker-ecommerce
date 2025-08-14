@@ -1,6 +1,6 @@
-import { IBaseModel } from "../interfaces/common/IBaseModel";
+import { Document } from "mongoose";
 
-export interface IBaseRepository <T extends IBaseModel> {
+export interface IBaseRepository <T extends Document> {
     // CRUD
     create(data: Partial<T>): Promise<T>;
     findById(id: string): Promise<T | null>;
