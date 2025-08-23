@@ -2,7 +2,7 @@ import { ErrorCode, HttpStatusCode } from "../../../constants/http-status-code.c
 import { IProduct } from "../interfaces/product.interface";
 import { AppError } from "../../../utils/app-error.util";
 import { IProductRepository } from "../interfaces/product-repository.interface";
-import { ProductHelper } from "../helper/product.helper";
+import { ProductHelper } from "../helpers/product.helper";
 
 class ProductService {
   private readonly productRepository: IProductRepository;
@@ -52,6 +52,10 @@ class ProductService {
     const attributesTemplate: Record<string, (string | number)[]> =
       ProductHelper.genAttributeTemplateFromVariant(data.variants ?? []);
     data.attributesTemplate = attributesTemplate;
+    data.slug = ProductHelper.generateSlug(data.name ?? "");
+    data.variants?.forEach((variant) => {
+      variant.sku = ProductHelper.generateSKU(data.brand ?? "", data.slug ?? "", variant.attributes);
+    });
 
     return await this.productRepository.create(data);
   }

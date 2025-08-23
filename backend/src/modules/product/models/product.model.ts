@@ -47,7 +47,6 @@ productSchema.pre("save", function (next) {
 export const createProductValidateSchema = z.object({
   name: z.string().nonempty({ message: "Name is required" }),
   brand: z.string().nonempty({ message: "Brand is required" }),
-  slug: z.string().nonempty({ message: "Slug is required" }),
   images: z.string().array().nonempty({ message: "Images is required" }),
   categories: z
     .string()

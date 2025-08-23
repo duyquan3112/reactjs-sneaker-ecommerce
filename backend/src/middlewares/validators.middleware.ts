@@ -11,10 +11,11 @@ const ProductValidator =
       throw new AppError(
         HttpStatusCode.BAD_REQUEST,
         ErrorCode.BAD_REQUEST,
-        "",
-        result.error.issues.map((iss) => iss.message)
+        "Validation failed",
+        result.error.issues.map((iss) => iss.path.join(".") + ": " + iss.message)
       );
     }
+    req.body = result.data;
     next();
   };
 

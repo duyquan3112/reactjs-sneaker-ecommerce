@@ -15,7 +15,6 @@ export const variantSchema = new Schema<IProductVariant>({
 
 //validate
 export const productVariantValidateSchema = z.object({
-  sku: z.string().min(1, { message: "SKU is required" }),
   attributes: z.record(z.string(), z.union([z.string(), z.number()])),
   price: z.number().min(0, { message: "Price must be at least 0" }),
   comparePrice: z

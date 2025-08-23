@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { IProduct } from "../interfaces/product.interface";
-import ProductService from "../service/product.service";
-import MongoProductRepository from "../repository/product.repository";
+import ProductService from "../services/product.service";
+import MongoProductRepository from "../repositories/product.repository";
 import { sendSuccessResponse } from "../../../utils/response.util";
 import { HttpStatusCode } from "../../../constants/http-status-code.constant";
 import { AppLogger } from "../../../utils/app-logger.util";

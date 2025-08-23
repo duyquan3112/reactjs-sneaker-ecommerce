@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { catchAsync } from "../../../middlewares/error-handler.middleware";
-import { ProductController } from "../controller/product.controller";
+import { ProductController } from "../controllers/product.controller";
 import { Validator } from "../../../middlewares/validators.middleware";
 import {
   createProductValidateSchema,
