@@ -1,5 +1,5 @@
-import { HttpStatusCode } from "../constants/HttpStatusCode";
-import { IBaseResponse } from "../interfaces/IBaseResponse";
+import { HttpStatusCode } from "../constants/http-status-code.constant";
+import { IBaseResponse } from "../interfaces/base-response.interface";
 import { Response } from "express";
 
 export const sendResponse = <T>(

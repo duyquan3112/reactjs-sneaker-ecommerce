@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { AppError } from "../utils/AppError";
-import { IBaseErrorResponse } from "../interfaces/IBaseResponse";
-import { ErrorCode, HttpStatusCode } from "../constants/HttpStatusCode";
+import { AppError } from "../utils/app-error.util";
+import { IBaseErrorResponse } from "../interfaces/base-response.interface";
+import { ErrorCode, HttpStatusCode } from "../constants/http-status-code.constant";
 
 export const errorHandler = (
   error: Error,

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import config from "./Config";
+import config from "./config";
 
 // Set `strictQuery: false` to globally opt into filtering by properties that aren't in the schema
 // Included because it removes preparatory warnings for Mongoose 7.

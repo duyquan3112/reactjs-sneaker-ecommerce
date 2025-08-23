@@ -1,8 +1,8 @@
 import express from "express";
-import config from "./config/Config";
-import connectDB from "./config/MongoDatabase";
+import config from "./config/config";
+import connectDB from "./config/mongo-database";
 import appRouter from "./routes/Routes";
-import { errorHandler } from "./middlewares/ErrorHandler";
+import { errorHandler } from "./middlewares/error-handler.middleware";
 
 //init app
 const app = express();

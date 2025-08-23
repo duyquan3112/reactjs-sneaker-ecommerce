@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodType } from "zod";
-import { AppError } from "../utils/AppError";
-import { ErrorCode, HttpStatusCode } from "../constants/HttpStatusCode";
+import { AppError } from "../utils/app-error.util";
+import { ErrorCode, HttpStatusCode } from "../constants/http-status-code.constant";
 
 const ProductValidator =
   (schema: ZodType) =>

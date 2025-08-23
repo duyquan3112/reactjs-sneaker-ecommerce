@@ -1,6 +1,6 @@
-import { IProductRepository } from "./interfaces/IProductRepository";
-import { IProduct } from "./interfaces/IProduct";
-import ProductModel from "./models/ProductModel";
+import { IProductRepository } from "../interfaces/product-repository.interface";
+import { IProduct } from "../interfaces/product.interface";
+import ProductModel from "../models/product.model";
 
 export class MongoProductRepository implements IProductRepository {
   // CRUD Implementations

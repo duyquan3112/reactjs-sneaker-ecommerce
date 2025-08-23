@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { catchAsync } from "../../middlewares/ErrorHandler";
-import { ProductController } from "./ProductController";
-import { Validator } from "../../middlewares/Validators";
+import { catchAsync } from "../../../middlewares/error-handler.middleware";
+import { ProductController } from "../controller/product.controller";
+import { Validator } from "../../../middlewares/validators.middleware";
 import {
   createProductValidateSchema,
   updateProductValidateSchema
-} from "./models/ProductModel";
+} from "../models/product.model";
 
 const productRouter = Router();
 

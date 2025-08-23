@@ -1,7 +1,8 @@
-import { ErrorCode, HttpStatusCode } from "../../constants/HttpStatusCode";
-import { IProduct } from "./interfaces/IProduct";
-import { AppError } from "../../utils/AppError";
-import { IProductRepository } from "./interfaces/IProductRepository";
+import { ErrorCode, HttpStatusCode } from "../../../constants/http-status-code.constant";
+import { IProduct } from "../interfaces/product.interface";
+import { AppError } from "../../../utils/app-error.util";
+import { IProductRepository } from "../interfaces/product-repository.interface";
+import { ProductHelper } from "../helper/product.helper";
 
 class ProductService {
   private readonly productRepository: IProductRepository;
@@ -48,6 +49,10 @@ class ProductService {
   }
 
   async createProduct(data: Partial<IProduct>): Promise<IProduct> {
+    const attributesTemplate: Record<string, (string | number)[]> =
+      ProductHelper.genAttributeTemplateFromVariant(data.variants ?? []);
+    data.attributesTemplate = attributesTemplate;
+
     return await this.productRepository.create(data);
   }
 

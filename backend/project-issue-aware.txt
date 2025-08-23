@@ -1,0 +1,11 @@
+1. Quản lý variant của sản phẩm (SKU):
+- Mỗi sản phẩm đều có thể có các thuộc tính khác nhau dù cùng 1 dòng.
+- Ví dụ: cùng 1 dòng NIKE Air Max 1 nhưng có thể có nhiều màu: xanh, đỏ, trắng, ..., và mỗi màu lại có thể có nhiều size khác nhau.
+=> Dẫn đến tạo ra các tổ hợp khác nhau (xanh - size 38, đỏ - size 39,...), mỗi tổ hợp lại có số lượng sản phẩm khác nhau
+=> Cần SKU cho từng tổ hợp để quản lý
+
+2. Tạo sản mới phải check exist.
+- Các sản phẩm được thêm mới có thể đã tồn tại trong hệ thống
+- Việc thêm sản phẩm đã tồn tại dẫn đến việc cùng 1 dòng sản phẩm lại xuất hiện nhiều lần trên hệ thống
+=> Giá của mỗi lần thêm mới có thể khác nhau, gây ra sự xung đột trong quản lý sản phẩm (bán, cập nhật thông tin...)
+=> Cần phải có chức năng kiểm tra sản phẩm được thêm vào có tồn tại hay chưa, có thể kiểm tra từ hệ thống hoặc bằng yếu tố con người (?)

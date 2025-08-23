@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { IProduct } from "./interfaces/IProduct";
-import ProductService from "./ProductService";
-import MongoProductRepository from "./MongoProductRepository";
-import { sendSuccessResponse } from "../../utils/ResponseUtil";
-import { HttpStatusCode } from "../../constants/HttpStatusCode";
+import { IProduct } from "../interfaces/product.interface";
+import ProductService from "../service/product.service";
+import MongoProductRepository from "../repository/product.repository";
+import { sendSuccessResponse } from "../../../utils/response.util";
+import { HttpStatusCode } from "../../../constants/http-status-code.constant";
+import { AppLogger } from "../../../utils/app-logger.util";
 
 const repo = MongoProductRepository;
 const productService = new ProductService(repo);
@@ -43,6 +44,7 @@ const createProduct = async (
 ): Promise<void> => {
   console.log("Request body: ", req.body);
   const newProduct: IProduct = await productService.createProduct(req.body);
+  AppLogger.info("Create success: ", newProduct);
   return sendSuccessResponse(
     res,
     newProduct,
