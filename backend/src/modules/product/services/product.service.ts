@@ -60,7 +60,7 @@ class ProductService {
     AppLogger.info("Product: ", data);
 
     const attributesTemplate: Record<string, (string | number)[]> =
-      data.variants.length > 0
+      data.variants
         ? ProductHelper.genAttributeTemplateFromVariant(data.variants)
         : {};
 
