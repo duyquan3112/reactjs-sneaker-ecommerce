@@ -1,24 +1,28 @@
 import { NextFunction, Request, Response } from "express";
-import { ZodType } from "zod";
+import { plainToInstance } from "class-transformer";
+import { validate } from "class-validator";
 import { AppError } from "../utils/app-error.util";
-import { ErrorCode, HttpStatusCode } from "../constants/http-status-code.constant";
+import {
+  ErrorCode,
+  HttpStatusCode,
+} from "../constants/http-status-code.constant";
 
-const ProductValidator =
-  (schema: ZodType) =>
-  (req: Request, res: Response, next: NextFunction): void => {
-    const result = schema.safeParse(req.body);
-    if (!result.success) {
+export function validateDto(dtoClass: any) {
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
+    const dtoObject = plainToInstance(dtoClass, req.body);
+    const errors = await validate(dtoObject);
+    if (errors.length) {
       throw new AppError(
         HttpStatusCode.BAD_REQUEST,
         ErrorCode.BAD_REQUEST,
         "Validation failed",
-        result.error.issues.map((iss) => iss.path.join(".") + ": " + iss.message)
+        errors
       );
     }
-    req.body = result.data;
     next();
   };
-
-export const Validator = {
-  ProductValidator
-};
+}

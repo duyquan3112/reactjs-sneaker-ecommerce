@@ -5,6 +5,10 @@ import MongoProductRepository from "../repositories/product.repository";
 import { sendSuccessResponse } from "../../../utils/response.util";
 import { HttpStatusCode } from "../../../constants/http-status-code.constant";
 import { AppLogger } from "../../../utils/app-logger.util";
+import { plainToInstance } from "class-transformer";
+import { CreateProductDTO } from "../dtos/request/create-product.dto";
+import { ProductResponseDTO } from "../dtos/response/product-response.dto";
+import { UpdateProductDTO } from "../dtos/request/update-product.dto";
 
 const repo = MongoProductRepository;
 const productService = new ProductService(repo);
@@ -14,8 +18,13 @@ const getAllProducts = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const products: IProduct[] = await productService.getAllProducts();
-  return sendSuccessResponse(res, products);
+  const products = await productService.getAllProducts();
+
+  const response = plainToInstance(ProductResponseDTO, products, {
+    excludeExtraneousValues: true,
+    enableImplicitConversion: true,
+  });
+  return sendSuccessResponse(res, response);
 };
 
 const getProductById = async (
@@ -23,8 +32,13 @@ const getProductById = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const product: IProduct = await productService.getProductById(req.params.id);
-  return sendSuccessResponse(res, product);
+  const product = await productService.getProductById(req.params.id);
+
+  const response = plainToInstance(ProductResponseDTO, product, {
+    excludeExtraneousValues: true,
+  });
+
+  return sendSuccessResponse(res, response);
 };
 
 const searchProducts = async (
@@ -33,8 +47,14 @@ const searchProducts = async (
   next: NextFunction
 ): Promise<void> => {
   const name = req.query.name as string;
+
   const products: IProduct[] = await productService.getProductsByName(name);
-  return sendSuccessResponse(res, products);
+
+  const response = plainToInstance(ProductResponseDTO, products, {
+    excludeExtraneousValues: true,
+  });
+
+  return sendSuccessResponse(res, response);
 };
 
 const createProduct = async (
@@ -42,12 +62,23 @@ const createProduct = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log("Request body: ", req.body);
-  const newProduct: IProduct = await productService.createProduct(req.body);
-  AppLogger.info("Create success: ", newProduct);
+  AppLogger.info("Create product request: ", req.body);
+
+  const body = plainToInstance(CreateProductDTO, req.body);
+
+  AppLogger.info("Body: ", body);
+
+  const newProduct = await productService.createProduct(body);
+
+  AppLogger.info("New product: ", newProduct);
+
+  const response = plainToInstance(ProductResponseDTO, newProduct, {
+    excludeExtraneousValues: true,
+  });
+  AppLogger.info("Create success: ", response);
   return sendSuccessResponse(
     res,
-    newProduct,
+    response,
     HttpStatusCode.CREATED,
     "Product created successfully"
   );
@@ -58,14 +89,24 @@ const updateProduct = async (
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  console.log("Request body: ", req.body);
+  const body = plainToInstance(UpdateProductDTO, req.body);
+
+  AppLogger.info("Update product request: ", body);
+
   const updatedProduct: IProduct = await productService.updateProduct(
     req.params.id,
-    req.body
+    body
   );
+
+  const response = plainToInstance(ProductResponseDTO, updatedProduct, {
+    excludeExtraneousValues: true,
+  });
+
+  AppLogger.info("Update product response: ", response);
+
   return sendSuccessResponse(
     res,
-    updatedProduct,
+    response,
     HttpStatusCode.OK,
     "Product updated successfully"
   );
@@ -86,5 +127,5 @@ export const ProductController = {
   searchProducts,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
 };

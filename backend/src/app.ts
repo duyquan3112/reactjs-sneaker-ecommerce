@@ -1,7 +1,8 @@
+import "reflect-metadata";
 import express from "express";
 import config from "./config/config";
 import connectDB from "./config/mongo-database";
-import appRouter from "./routes/Routes";
+import appRouter from "./routes/app.routes";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 
 //init app

@@ -5,28 +5,30 @@ import ProductModel from "../models/product.model";
 export class MongoProductRepository implements IProductRepository {
   // CRUD Implementations
 
-  async findWithLimit(limit: number): Promise<IProduct[]> {
-    return await ProductModel.find().limit(limit);
+  async findWithLimit(limit: number) {
+    return await ProductModel.find().limit(limit).lean();
   }
 
-  async findByName(name: string): Promise<IProduct[]> {
-    return await ProductModel.find({ name: { $regex: name, $options: "i" } });
+  async findByName(name: string) {
+    return await ProductModel.find({
+      name: { $regex: name, $options: "i" },
+    }).lean();
   }
 
-  async create(data: Partial<IProduct>): Promise<IProduct> {
+  async create(data: IProduct) {
     const newProduct = new ProductModel(data);
     return await newProduct.save();
   }
 
-  async findById(id: string): Promise<IProduct | null> {
-    return await ProductModel.findById(id);
+  async findById(id: string) {
+    return await ProductModel.findById(id).lean();
   }
 
-  async findAll(): Promise<IProduct[]> {
-    return await ProductModel.find();
+  async findAll() {
+    return await ProductModel.find().lean();
   }
 
-  async update(id: string, data: Partial<IProduct>): Promise<IProduct | null> {
+  async update(id: string, data: Partial<IProduct>) {
     return await ProductModel.findByIdAndUpdate(id, data, { new: true });
   }
 

@@ -1,4 +1,14 @@
+import {
+  ErrorCode,
+  HttpStatusCode,
+} from "../../../constants/http-status-code.constant";
+import { AppError } from "../../../utils/app-error.util";
 import { AppLogger } from "../../../utils/app-logger.util";
+import {
+  ICreateProductDTO,
+  ICreateProductVariantDTO,
+} from "../dtos/request/create-product.dto";
+import { IUpdateProductVariantDTO } from "../dtos/request/update-product.dto";
 import { IProductVariant } from "../interfaces/product-variant.interface";
 
 /**
@@ -8,14 +18,21 @@ import { IProductVariant } from "../interfaces/product-variant.interface";
  * @returns Attribute template
  */
 export const genAttributeTemplateFromVariant = (
-  variants: IProductVariant[]
+  variants:
+    | IProductVariant[]
+    | ICreateProductVariantDTO[]
+    | IUpdateProductVariantDTO[]
 ): Record<string, (string | number)[]> => {
   const attributesTemplate: Record<string, (string | number)[]> = {};
   if (variants) {
     variants.forEach((variant) => {
-      AppLogger.info(`Generating attribute template from variant: ${JSON.stringify(variant)}`);
+      AppLogger.info(
+        `Generating attribute template from variant: ${JSON.stringify(variant)}`
+      );
       AppLogger.info(`Attributes: ${JSON.stringify(variant.attributes)}`);
-      AppLogger.info(`Attributes entries: ${JSON.stringify(Object.entries(variant.attributes))}`);
+      AppLogger.info(
+        `Attributes entries: ${JSON.stringify(Object.entries(variant.attributes))}`
+      );
       Object.entries(variant.attributes).forEach(([key, value]) => {
         if (!attributesTemplate[key]) {
           attributesTemplate[key] = [];
@@ -45,7 +62,10 @@ export const generateSKU = (
   attributes: Record<string, string | number>
 ): string => {
   const brandCode = brand.toUpperCase();
-  const slugCode = slug.split(/-/g).map((char) => char[0].toUpperCase()).join("");
+  const slugCode = slug
+    .split(/-/g)
+    .map((char) => (isNaN(+char) ? char[0].toUpperCase() : char))
+    .join("");
   const colorCode = String(attributes.color).replace(/\s+/g, "").toUpperCase();
   const sizeCode = String(attributes.size).toUpperCase();
 
@@ -63,11 +83,22 @@ export const generateSKU = (
  */
 
 export const generateSlug = (name: string): string => {
-  return name.toLowerCase().replace(/ /g, "-").replace(/[^a-z0-9-]/g, "");
+  if (name.trim() === "") {
+    throw new AppError(
+      HttpStatusCode.BAD_REQUEST,
+      ErrorCode.BAD_REQUEST,
+      "Name is required to generate slug"
+    );
+  }
+
+  return name
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^a-z0-9-]/g, "");
 };
 
 export const ProductHelper = {
   genAttributeTemplateFromVariant,
   generateSKU,
-  generateSlug
+  generateSlug,
 };
