@@ -9,3 +9,45 @@
 - Việc thêm sản phẩm đã tồn tại dẫn đến việc cùng 1 dòng sản phẩm lại xuất hiện nhiều lần trên hệ thống
 => Giá của mỗi lần thêm mới có thể khác nhau, gây ra sự xung đột trong quản lý sản phẩm (bán, cập nhật thông tin...)
 => Cần phải có chức năng kiểm tra sản phẩm được thêm vào có tồn tại hay chưa, có thể kiểm tra từ hệ thống hoặc bằng yếu tố con người (?)
+
+
+========= NEED IMPROVE ===========
+Code Quality Issues:
+❌ Missing error boundaries: Không có global error handling strategy
+❌ Incomplete validation: UpdateProductDTO thiếu business rule validation
+❌ Hard-coded values: StatusTypes.DRAFT trong service
+❌ Magic numbers: Limit 18 trong getProducts()
+Performance Issues:
+❌ N+1 queries potential: Không có batching cho multiple operations
+❌ Missing caching: Không có caching strategy
+❌ Inefficient updates: Luôn update dù data không thay đổi
+Security Issues:
+❌ No authentication/authorization: Public API endpoints
+❌ No input sanitization: Direct database queries
+❌ No rate limiting: API có thể bị abuse
+
+Suggestion:
+1. Architecture Improvements:
+Tách biệt Domain và Infrastructure: Tạo interface riêng cho lean queries
+Implement CQRS: Tách read và write operations
+Add Domain Events: Event-driven architecture cho business logic
+2. Code Quality Improvements:
+Global Error Handling: Implement error boundary middleware
+Business Rule Validation: Move validation logic từ service xuống domain
+Configuration Management: Externalize hard-coded values
+Add Unit Tests: Jest + supertest cho testing
+3. Performance Improvements:
+Implement Caching: Redis cho frequently accessed data
+Query Optimization: Add database indexes, implement pagination
+Batch Operations: Bulk create/update operations
+Change Detection: Only update when data actually changes
+4. Security Improvements:
+Authentication: JWT hoặc session-based auth
+Authorization: Role-based access control
+Input Validation: Sanitize và validate tất cả inputs
+Rate Limiting: Implement API rate limiting
+5. Monitoring & Observability:
+Health Checks: API health endpoints
+Metrics Collection: Performance metrics
+Distributed Tracing: Request tracing across services
+Structured Logging: JSON logging với correlation IDs

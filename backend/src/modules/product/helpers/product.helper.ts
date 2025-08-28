@@ -49,7 +49,7 @@ export const genAttributeTemplateFromVariant = (
 
 /**
  * Generate SKU with auto-increment suffix.
- * Example: NIKE-AIRMAX1-RED-42, NIKE-AIRMAX1-RED-42
+ * Example: NIKE-AM1-RED-42, NIKE-PANDA-BLUE-42
  *
  * @param brand - Brand name (e.g., "Nike")
  * @param slug - Product slug (e.g., "air-max-1")
@@ -62,10 +62,16 @@ export const generateSKU = (
   attributes: Record<string, string | number>
 ): string => {
   const brandCode = brand.toUpperCase();
-  const slugCode = slug
-    .split(/-/g)
-    .map((char) => (isNaN(+char) ? char[0].toUpperCase() : char))
-    .join("");
+  const slugSplit = slug.split(/-/g);
+  const slugCode =
+    slugSplit.length === 1
+      ? slugSplit[0].toUpperCase()
+      : slugSplit
+          .map((char) =>
+            isNaN(+char) ? char[0].toUpperCase() : char.toUpperCase()
+          )
+          .join("");
+  slugSplit;
   const colorCode = String(attributes.color).replace(/\s+/g, "").toUpperCase();
   const sizeCode = String(attributes.size).toUpperCase();
 

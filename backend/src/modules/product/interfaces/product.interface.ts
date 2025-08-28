@@ -1,4 +1,3 @@
-import { Document } from "mongoose";
 import { IProductVariant, ProductVariant } from "./product-variant.interface";
 
 export enum StatusTypes {

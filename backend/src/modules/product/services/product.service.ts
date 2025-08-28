@@ -2,7 +2,7 @@ import {
   ErrorCode,
   HttpStatusCode,
 } from "../../../constants/http-status-code.constant";
-import { Product, StatusTypes } from "../interfaces/product.interface";
+import { Product } from "../interfaces/product.interface";
 import { AppError } from "../../../utils/app-error.util";
 import { IProductRepository } from "../interfaces/product-repository.interface";
 import { ProductHelper } from "../helpers/product.helper";
