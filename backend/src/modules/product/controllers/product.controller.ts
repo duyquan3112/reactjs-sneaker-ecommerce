@@ -9,9 +9,12 @@ import { plainToInstance } from "class-transformer";
 import { CreateProductDTO } from "../dtos/request/create-product.dto";
 import { ProductResponseDTO } from "../dtos/response/product-response.dto";
 import { UpdateProductDTO } from "../dtos/request/update-product.dto";
+import { ProductCacheService } from "../cache/product-cache.service";
+import { RedisCacheService } from "../../../cache/redis/redis-cache.service";
 
 const repo = MongoProductRepository;
-const productService = new ProductService(repo);
+const cacheService = new ProductCacheService(new RedisCacheService());
+const productService = new ProductService(repo, cacheService);
 
 const getAllProducts = async (
   req: Request,

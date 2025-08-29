@@ -11,20 +11,48 @@ import { UpdateProductDTO } from "../dtos/request/update-product.dto";
 import { AppLogger } from "../../../utils/app-logger.util";
 import { ProductVariant } from "../interfaces/product-variant.interface";
 import { DEFAULT_PRODUCT_LIMIT } from "../../../constants/app.constant";
+import { IProductCacheService } from "../cache/product-cache.service";
 
 class ProductService {
   private readonly productRepository: IProductRepository;
+  private readonly productCacheService: IProductCacheService;
 
-  constructor(productRepository: IProductRepository) {
+  constructor(
+    productRepository: IProductRepository,
+    productCacheService: IProductCacheService
+  ) {
     this.productRepository = productRepository;
+    this.productCacheService = productCacheService;
   }
 
   async getProducts(limit: number = DEFAULT_PRODUCT_LIMIT) {
-    return await this.productRepository.findWithLimit(limit);
+    const cachedProducts = await this.productCacheService.getAllProducts();
+
+    // Get products from cache
+    if (cachedProducts) {
+      return cachedProducts.slice(0, limit);
+    }
+
+    // Get products from database
+    const products = await this.productRepository.findWithLimit(limit);
+
+    this.productCacheService.setAllProducts(products);
+
+    return products;
   }
 
   async getAllProducts() {
-    return await this.productRepository.findAll();
+    const cachedProducts = await this.productCacheService.getAllProducts();
+
+    if (cachedProducts) {
+      return cachedProducts;
+    }
+
+    const products = await this.productRepository.findAll();
+
+    this.productCacheService.setAllProducts(products);
+
+    return products;
   }
 
   async getProductById(id: string) {
@@ -34,6 +62,12 @@ class ProductService {
         ErrorCode.BAD_REQUEST,
         "Invalid Request"
       );
+    }
+
+    const cachedProduct = await this.productCacheService.getProductById(id);
+
+    if (cachedProduct) {
+      return cachedProduct;
     }
 
     const product = await this.productRepository.findById(id);
@@ -46,14 +80,29 @@ class ProductService {
       );
     }
 
+    this.productCacheService.setProductById(id, product);
+
     return product;
   }
 
   async getProductsByName(name: string) {
     if (name.trim() === "") {
-      return await this.productRepository.findAll();
+      return await this.getAllProducts();
     }
-    return await this.productRepository.findByName(name.trim());
+
+    const cachedProducts = await this.productCacheService.getProductsByName(
+      name.trim()
+    );
+
+    if (cachedProducts) {
+      return cachedProducts;
+    }
+
+    const products = await this.productRepository.findByName(name.trim());
+
+    this.productCacheService.setProductsByName(name.trim(), products);
+
+    return products;
   }
 
   async createProduct(data: CreateProductDTO) {
@@ -83,6 +132,8 @@ class ProductService {
           })
       ),
     });
+
+    await this.productCacheService.invalidateProductCache();
 
     return await this.productRepository.create(product);
   }
@@ -133,10 +184,13 @@ class ProductService {
       );
     }
 
+    await this.productCacheService.invalidateProductCache(id);
+
     return updatedProduct;
   }
 
   async deleteProduct(id: string) {
+    await this.productCacheService.invalidateProductCache(id);
     return await this.productRepository.delete(id);
   }
 }

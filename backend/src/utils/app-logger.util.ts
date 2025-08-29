@@ -4,7 +4,16 @@ type LogLevel = "info" | "warn" | "error" | "debug";
 
 function log(level: LogLevel, message: string, ...args: unknown[]) {
   if (config.nodeEnv === "development") {
-    const timestamp = new Date().toISOString();
+    const timestamp = new Date().toLocaleTimeString("vi-VN", {
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: false,
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      timeZone: "Asia/Ho_Chi_Minh",
+    });
     switch (level) {
       case "info":
         console.log(`[INFO] ${timestamp} - ${message}`, ...args);
@@ -26,5 +35,5 @@ export const AppLogger = {
   info: (msg: string, ...args: unknown[]) => log("info", msg, ...args),
   warn: (msg: string, ...args: unknown[]) => log("warn", msg, ...args),
   error: (msg: string, ...args: unknown[]) => log("error", msg, ...args),
-  debug: (msg: string, ...args: unknown[]) => log("debug", msg, ...args)
+  debug: (msg: string, ...args: unknown[]) => log("debug", msg, ...args),
 };
