@@ -78,7 +78,7 @@ export class ProductResponseDTO implements IProductResponseDTO {
 
   @Expose()
   @Type(() => ProductVariantResponseDTO)
-  variants: ProductVariantResponseDTO[];
+  variants: IProductVariantResponseDTO[];
 
   @Expose()
   shortDescription?: string;
