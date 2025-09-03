@@ -9,7 +9,6 @@ import { ProductHelper } from "../helpers/product.helper";
 import { CreateProductDTO } from "../dtos/request/create-product.dto";
 import { UpdateProductDTO } from "../dtos/request/update-product.dto";
 import { AppLogger } from "../../../utils/app-logger.util";
-import { ProductVariant } from "../interfaces/product-variant.interface";
 import { DEFAULT_PRODUCT_LIMIT } from "../../../constants/app.constant";
 import { IProductCacheService } from "../cache/product-cache.service";
 
@@ -26,172 +25,182 @@ class ProductService {
   }
 
   async getProducts(limit: number = DEFAULT_PRODUCT_LIMIT) {
-    const cachedProducts = await this.productCacheService.getAllProducts();
-
-    // Get products from cache
-    if (cachedProducts) {
-      return cachedProducts.slice(0, limit);
-    }
-
-    // Get products from database
-    const products = await this.productRepository.findWithLimit(limit);
-
-    this.productCacheService.setAllProducts(products);
-
-    return products;
+    const allProducts = await this.getAllProducts();
+    return allProducts.slice(0, limit);
   }
 
   async getAllProducts() {
-    const cachedProducts = await this.productCacheService.getAllProducts();
+    try {
+      const cachedProducts = await this.productCacheService.getAllProducts();
 
-    if (cachedProducts) {
-      return cachedProducts;
+      if (cachedProducts && cachedProducts.length > 0) {
+        return cachedProducts;
+      }
+
+      const products = await this.productRepository.findAll();
+
+      if (products && products.length > 0) {
+        await this.productCacheService.setAllProducts(products);
+      }
+
+      return products;
+    } catch (error) {
+      AppLogger.error("Error getting all products:", error);
+      throw new AppError(
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        "Failed to retrieve products"
+      );
     }
-
-    const products = await this.productRepository.findAll();
-
-    this.productCacheService.setAllProducts(products);
-
-    return products;
   }
 
   async getProductById(id: string) {
-    if (id.trim() === "") {
+    ProductHelper.validateId(id);
+
+    try {
+      const cachedProduct = await this.productCacheService.getProductById(id);
+
+      if (cachedProduct) {
+        return cachedProduct;
+      }
+
+      const product = await this.productRepository.findById(id);
+
+      if (!product) {
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          ErrorCode.NOT_FOUND,
+          "Product not found!"
+        );
+      }
+
+      await this.productCacheService.setProductById(id, product);
+      return product;
+    } catch (error) {
+      AppLogger.error("Error getting product by ID:", error);
       throw new AppError(
-        HttpStatusCode.BAD_REQUEST,
-        ErrorCode.BAD_REQUEST,
-        "Invalid Request"
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        "Failed to retrieve product"
       );
     }
-
-    const cachedProduct = await this.productCacheService.getProductById(id);
-
-    if (cachedProduct) {
-      return cachedProduct;
-    }
-
-    const product = await this.productRepository.findById(id);
-
-    if (!product) {
-      throw new AppError(
-        HttpStatusCode.NOT_FOUND,
-        ErrorCode.NOT_FOUND,
-        "Product not found!"
-      );
-    }
-
-    this.productCacheService.setProductById(id, product);
-
-    return product;
   }
 
   async getProductsByName(name: string) {
-    if (name.trim() === "") {
+    if (!name || name.trim() === "") {
       return await this.getAllProducts();
     }
 
-    const cachedProducts = await this.productCacheService.getProductsByName(
-      name.trim()
-    );
+    try {
+      const trimmedName = name.trim();
+      const cachedProducts =
+        await this.productCacheService.getProductsByName(trimmedName);
 
-    if (cachedProducts) {
-      return cachedProducts;
+      if (cachedProducts && cachedProducts.length > 0) {
+        return cachedProducts;
+      }
+
+      const products = await this.productRepository.findByName(trimmedName);
+
+      if (products && products.length > 0) {
+        await this.productCacheService.setProductsByName(trimmedName, products);
+      }
+
+      return products;
+    } catch (error) {
+      AppLogger.error("Error searching products by name:", error);
+      throw new AppError(
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        "Failed to search products"
+      );
     }
-
-    const products = await this.productRepository.findByName(name.trim());
-
-    this.productCacheService.setProductsByName(name.trim(), products);
-
-    return products;
   }
 
   async createProduct(data: CreateProductDTO) {
-    AppLogger.info("Product: ", data);
+    AppLogger.info("Creating product:", data);
 
-    const attributesTemplate: Record<string, (string | number)[]> =
-      data.variants
-        ? ProductHelper.genAttributeTemplateFromVariant(data.variants)
-        : {};
+    try {
+      const product = ProductHelper.buildProductFromDTO(data);
+      const createdProduct = await this.productRepository.create(product);
 
-    const slug = ProductHelper.generateSlug(data.name);
+      await this.invalidateRelevantCaches();
 
-    const product = new Product({
-      ...data,
-      attributesTemplate: attributesTemplate,
-      slug: slug,
-      status: data.status,
-      variants: data.variants.map(
-        (variant) =>
-          new ProductVariant({
-            ...variant,
-            sku: ProductHelper.generateSKU(
-              data.brand ?? "",
-              slug,
-              variant.attributes
-            ),
-          })
-      ),
-    });
-
-    await this.productCacheService.invalidateProductCache();
-
-    return await this.productRepository.create(product);
+      return createdProduct;
+    } catch (error) {
+      AppLogger.error("Error creating product:", error);
+      throw new AppError(
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        "Failed to create product"
+      );
+    }
   }
 
   async updateProduct(id: string, data: UpdateProductDTO) {
-    if (id.trim() === "") {
+    ProductHelper.validateId(id);
+
+    try {
+      const currentProductData = await this.getProductById(id);
+      const currentProduct = new Product(currentProductData);
+      const updatedProductData = ProductHelper.buildUpdatedProductData(
+        currentProduct,
+        data
+      );
+
+      const updatedProduct = await this.productRepository.update(
+        id,
+        updatedProductData
+      );
+
+      if (!updatedProduct) {
+        throw new AppError(
+          HttpStatusCode.NOT_FOUND,
+          ErrorCode.NOT_FOUND,
+          "Product not found!"
+        );
+      }
+
+      await this.productCacheService.invalidateProductCache(id);
+
+      return updatedProduct;
+    } catch (error) {
+      AppLogger.error("Error updating product:", error);
       throw new AppError(
-        HttpStatusCode.BAD_REQUEST,
-        ErrorCode.BAD_REQUEST,
-        "Invalid Request"
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        "Failed to update product"
       );
     }
-
-    const currentProduct: Product = new Product(await this.getProductById(id));
-
-    const attributesTemplate: Record<string, (string | number)[]> =
-      data.variants
-        ? ProductHelper.genAttributeTemplateFromVariant(data.variants)
-        : currentProduct.attributesTemplate;
-
-    const slug = ProductHelper.generateSlug(data.name ?? currentProduct.name);
-
-    const updatedProduct = await this.productRepository.update(
-      id,
-      currentProduct.copyWith({
-        ...data,
-        attributesTemplate: attributesTemplate,
-        slug: slug,
-        variants: data.variants?.map(
-          (variant) =>
-            new ProductVariant({
-              ...variant,
-              sku: ProductHelper.generateSKU(
-                data.brand ?? "",
-                slug,
-                variant.attributes
-              ),
-            })
-        ),
-      })
-    );
-
-    if (!updatedProduct) {
-      throw new AppError(
-        HttpStatusCode.NOT_FOUND,
-        ErrorCode.NOT_FOUND,
-        "Product not found!"
-      );
-    }
-
-    await this.productCacheService.invalidateProductCache(id);
-
-    return updatedProduct;
   }
 
   async deleteProduct(id: string) {
-    await this.productCacheService.invalidateProductCache(id);
-    return await this.productRepository.delete(id);
+    ProductHelper.validateId(id);
+
+    try {
+      const deleteResult = await this.productRepository.delete(id);
+
+      if (deleteResult) {
+        await this.productCacheService.invalidateProductCache(id);
+      }
+
+      return deleteResult;
+    } catch (error) {
+      AppLogger.error("Error deleting product:", error);
+      throw new AppError(
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        "Failed to delete product"
+      );
+    }
+  }
+
+  private async invalidateRelevantCaches(): Promise<void> {
+    try {
+      await this.productCacheService.invalidateProductCache();
+    } catch (error) {
+      AppLogger.error("Error invalidating cache:", error);
+    }
   }
 }
 

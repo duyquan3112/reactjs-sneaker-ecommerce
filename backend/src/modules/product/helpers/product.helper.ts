@@ -5,11 +5,18 @@ import {
 import { AppError } from "../../../utils/app-error.util";
 import { AppLogger } from "../../../utils/app-logger.util";
 import {
-  ICreateProductDTO,
+  CreateProductDTO,
   ICreateProductVariantDTO,
 } from "../dtos/request/create-product.dto";
-import { IUpdateProductVariantDTO } from "../dtos/request/update-product.dto";
-import { IProductVariant } from "../interfaces/product-variant.interface";
+import {
+  IUpdateProductVariantDTO,
+  UpdateProductDTO,
+} from "../dtos/request/update-product.dto";
+import {
+  IProductVariant,
+  ProductVariant,
+} from "../interfaces/product-variant.interface";
+import { Product } from "../interfaces/product.interface";
 
 /**
  * Generate attribute template from variants
@@ -103,8 +110,76 @@ export const generateSlug = (name: string): string => {
     .replace(/[^a-z0-9-]/g, "");
 };
 
+const validateId = (id: string): void => {
+  if (!id || id.trim() === "") {
+    throw new AppError(
+      HttpStatusCode.BAD_REQUEST,
+      ErrorCode.BAD_REQUEST,
+      "Invalid ID provided"
+    );
+  }
+};
+
+const buildProductFromDTO = (data: CreateProductDTO): Product => {
+  const attributesTemplate = data.variants
+    ? ProductHelper.genAttributeTemplateFromVariant(data.variants)
+    : {};
+
+  const slug = ProductHelper.generateSlug(data.name);
+
+  return new Product({
+    ...data,
+    attributesTemplate,
+    slug,
+    variants: data.variants.map(
+      (variant) =>
+        new ProductVariant({
+          ...variant,
+          sku: ProductHelper.generateSKU(
+            data.brand ?? "",
+            slug,
+            variant.attributes
+          ),
+        })
+    ),
+  });
+};
+
+const buildUpdatedProductData = (
+  currentProduct: Product,
+  updateData: UpdateProductDTO
+): Product => {
+  const attributesTemplate = updateData.variants
+    ? ProductHelper.genAttributeTemplateFromVariant(updateData.variants)
+    : currentProduct.attributesTemplate;
+
+  const slug = ProductHelper.generateSlug(
+    updateData.name ?? currentProduct.name
+  );
+
+  return currentProduct.copyWith({
+    ...updateData,
+    attributesTemplate,
+    slug,
+    variants: updateData.variants?.map(
+      (variant) =>
+        new ProductVariant({
+          ...variant,
+          sku: ProductHelper.generateSKU(
+            updateData.brand ?? currentProduct.brand ?? "",
+            slug,
+            variant.attributes
+          ),
+        })
+    ),
+  });
+};
+
 export const ProductHelper = {
   genAttributeTemplateFromVariant,
   generateSKU,
   generateSlug,
+  validateId,
+  buildProductFromDTO,
+  buildUpdatedProductData,
 };
