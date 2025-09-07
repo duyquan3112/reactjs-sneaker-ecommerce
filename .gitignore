@@ -14,3 +14,4 @@ backend/package-lock.json
 backend/tutorial.md
 
 backend/dist
+frontend/dist

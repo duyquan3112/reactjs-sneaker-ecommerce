@@ -1,11 +1,13 @@
-import CarouselBanner from "../components/Banners/Common/CarouselBanner.jsx";
-import Products from "../components/Products/Products.jsx";
+import {
+  HomeCarouselBanner,
+  HomeProductsView,
+} from "../features/home/components";
 
 const HomePage = () => {
   return (
     <>
-      <CarouselBanner />
-      <Products />
+      <HomeCarouselBanner />
+      <HomeProductsView />
     </>
   );
 };

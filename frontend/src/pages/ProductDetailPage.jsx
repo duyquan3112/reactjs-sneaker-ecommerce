@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router";
-import NotFoundPage from "./NotFoundPage.jsx";
-import ProductData from "../components/ProductDetail/ProductData.jsx";
-import MockupData from "../mocks/MockupData.js";
+import { NotFoundPage } from "../components";
+import { ProductDetailData } from "../features/product-detail/components";
+import MockupData from "../utils/MockupData.js";
 
 const ProductDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -23,7 +23,7 @@ const ProductDetailPage = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <ProductData product={product} images={images} />
+      <ProductDetailData product={product} images={images} />
     </div>
   );
 };
