@@ -1,6 +1,6 @@
 import React from "react";
 import FormatUtil from "../../utils/FormatUtil.js";
-import { classMerge } from "../../utils/twMerge.js";
+import { classMerge } from "../../utils/TwMerge.js";
 
 const ProductCard = ({
   product,

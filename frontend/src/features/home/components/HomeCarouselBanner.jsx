@@ -47,8 +47,8 @@ const HomeCarouselBanner = () => {
   };
 
   return (
-    <div className="relative w-full xl:w-[80%] mx-auto aspect-[16/9] overflow-hidden">
-      <div className="relative w-full h-full">
+    <div className="relative w-full lg:w-[80%] xl:w-[60%] mx-auto overflow-hidden">
+      <div className="relative w-full h-full aspect-[16/9]">
         {bannerData.map((banner, index) => (
           <div
             key={banner.id}

@@ -71,6 +71,7 @@ const AppConstants = {
     },
   ],
   mobileWidth: 640,
+  defaultPageSize: 12,
 };
 
 export default AppConstants;

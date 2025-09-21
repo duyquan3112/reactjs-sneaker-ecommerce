@@ -15,6 +15,8 @@ export interface IProductCacheService {
   getProductsByName(name: string): Promise<IProduct[] | null>;
   setProductsByName(name: string, products: IProduct[]): Promise<void>;
   invalidateProductCache(productId?: string): Promise<void>;
+  getHomeProducts(limit: number): Promise<IProduct[] | null>;
+  setHomeProducts(products: IProduct[], limit: number): Promise<void>;
 }
 
 export class ProductCacheService implements IProductCacheService {
@@ -50,6 +52,16 @@ export class ProductCacheService implements IProductCacheService {
   async setProductsByName(name: string, products: IProduct[]): Promise<void> {
     const key = generateCacheKey(CACHE_KEYS.PRODUCT.BY_NAME, { name });
     await this.cacheService.set(key, products, CACHE_TTL.PRODUCT.BY_NAME);
+  }
+
+  async getHomeProducts(limit: number): Promise<IProduct[] | null> {
+    const key = generateCacheKey(CACHE_KEYS.PRODUCT.HOME, { limit });
+    return await this.cacheService.get<IProduct[]>(key);
+  }
+
+  async setHomeProducts(products: IProduct[], limit: number): Promise<void> {
+    const key = generateCacheKey(CACHE_KEYS.PRODUCT.HOME, { limit });
+    await this.cacheService.set(key, products, CACHE_TTL.PRODUCT.HOME);
   }
 
   async invalidateProductCache(productId?: string): Promise<void> {

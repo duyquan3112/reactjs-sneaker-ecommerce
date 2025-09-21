@@ -112,10 +112,22 @@ export const generateSlug = (name: string): string => {
 
 const validateId = (id: string): void => {
   if (!id || id.trim() === "") {
+    AppLogger.error(`Invalid ID provided: ${id}`);
     throw new AppError(
-      HttpStatusCode.BAD_REQUEST,
-      ErrorCode.BAD_REQUEST,
-      "Invalid ID provided"
+      HttpStatusCode.NOT_FOUND,
+      ErrorCode.NOT_FOUND,
+      "Product not found"
+    );
+  }
+
+  // Check if ID is a valid MongoDB ObjectId (24 hex characters)
+  const objectIdRegex = /^[0-9a-fA-F]{24}$/;
+  if (!objectIdRegex.test(id)) {
+    AppLogger.error(`Invalid ID provided: ${id}`);
+    throw new AppError(
+      HttpStatusCode.NOT_FOUND,
+      ErrorCode.NOT_FOUND,
+      "Product not found"
     );
   }
 };

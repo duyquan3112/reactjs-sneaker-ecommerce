@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
 import PaginationButton from "./PaginationButton.jsx";
-import useWindowSize from "../../hooks/useWindowSize.jsx";
+import { useWindowSize } from "../../hooks";
 import ChangePageButton from "./ChangePageButton.jsx";
-import { scrollToPosition } from "../../utils/ScrollUtil.js";
 import AppConstants from "../../constants/AppConstants.js";
 
-const PaginationList = ({ totalPages, onPageChange }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [bannerHeight, setBannerHeight] = useState(0);
+const PaginationList = ({
+  totalPages,
+  onPageChange,
+  initialPage = 1,
+  isFetching = false,
+}) => {
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const { width } = useWindowSize();
   const isMobile = width < AppConstants.mobileWidth;
 
-  useEffect(() => {
-    const bannerHeight =
-      document.getElementById("page-banner").offsetHeight || 0;
-    setBannerHeight(bannerHeight);
-  }, []);
-
   const handlePageChange = (page) => {
-    if (page === currentPage) return;
     setCurrentPage(page);
     onPageChange(page);
-    scrollToPosition(bannerHeight);
   };
 
   const renderButtonList = () => {
@@ -71,7 +66,7 @@ const PaginationList = ({ totalPages, onPageChange }) => {
   return (
     <div className="flex items-center justify-center gap-2 w-full mx-auto">
       <ChangePageButton
-        disabled={currentPage === 1}
+        disabled={currentPage === 1 || isFetching}
         onClick={() => handlePageChange(Math.max(currentPage - 1, 1))}
       >
         {isMobile ? "<" : "Prev"}
@@ -89,7 +84,7 @@ const PaginationList = ({ totalPages, onPageChange }) => {
       )}
 
       <ChangePageButton
-        disabled={currentPage === totalPages}
+        disabled={currentPage === totalPages || isFetching}
         onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
       >
         {isMobile ? ">" : "Next"}

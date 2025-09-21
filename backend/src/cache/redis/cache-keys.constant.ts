@@ -3,6 +3,7 @@ export const CACHE_KEYS = {
   // Use ':' to create hierarchy clearly
   PRODUCT: {
     ALL: "cache:product:all",
+    HOME: "cache:product:home:{limit}",
 
     BY_ID: "cache:product:id:{id}",
 
@@ -18,6 +19,7 @@ export const CACHE_KEYS = {
 export const CACHE_TTL = {
   PRODUCT: {
     ALL: 300,
+    HOME: 300,
     BY_ID: 600,
     BY_NAME: 300,
     SEARCH: 180,

@@ -92,6 +92,26 @@ const MockupData = {
       image: "https://picsum.photos/seed/p003/900/600",
       title: "Product Line 3",
     },
+    {
+      id: "product-line-4",
+      image: "https://picsum.photos/seed/p004/900/600",
+      title: "Product Line 4",
+    },
+    {
+      id: "product-line-5",
+      image: "https://picsum.photos/seed/p005/900/600",
+      title: "Product Line 5",
+    },
+    {
+      id: "product-line-6",
+      image: "https://picsum.photos/seed/p006/900/600",
+      title: "Product Line 6",
+    },
+    {
+      id: "product-line-7",
+      image: "https://picsum.photos/seed/p007/900/600",
+      title: "Product Line 7",
+    },
   ],
   homeProductListData: [
     {

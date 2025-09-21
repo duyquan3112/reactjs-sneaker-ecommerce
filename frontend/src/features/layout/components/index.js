@@ -2,7 +2,7 @@
 export { default as LayoutUserLayout } from "./LayoutUserLayout.jsx";
 
 // Header Components
-export { default as LayoutHeaderMain } from "./Header/LayoutHeaderMain.jsx";
+export { default as LayoutHeader } from "./Header/LayoutHeader.jsx";
 export { default as LayoutHeaderTopBar } from "./Header/LayoutHeaderTopBar.jsx";
 export { default as LayoutHeaderNavBar } from "./Header/LayoutHeaderNavBar.jsx";
 

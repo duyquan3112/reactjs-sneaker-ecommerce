@@ -6,9 +6,17 @@ import appRouter from "./routes/app.routes";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 import { initializeRedis } from "./cache/redis/redis.client";
 import { AppLogger } from "./utils/app-logger.util";
+import cors from "cors";
 
 //init app
 const app = express();
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 //routes

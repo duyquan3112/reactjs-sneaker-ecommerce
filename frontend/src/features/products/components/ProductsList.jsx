@@ -1,5 +1,5 @@
 import { ProductCard } from "../../../components";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import PATH from "../../../routes/path.js";
 
 const ProductsList = ({ productList }) => {

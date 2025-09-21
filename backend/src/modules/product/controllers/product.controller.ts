@@ -11,6 +11,7 @@ import { ProductResponseDTO } from "../dtos/response/product-response.dto";
 import { UpdateProductDTO } from "../dtos/request/update-product.dto";
 import { ProductCacheService } from "../cache/product-cache.service";
 import { RedisCacheService } from "../../../cache/redis/redis-cache.service";
+import { DEFAULT_PRODUCT_LIMIT } from "../../../constants/app.constant";
 
 const repo = MongoProductRepository;
 const cacheService = new ProductCacheService(new RedisCacheService());
@@ -27,6 +28,20 @@ const getAllProducts = async (
     excludeExtraneousValues: true,
     enableImplicitConversion: true,
   });
+  return sendSuccessResponse(res, response);
+};
+
+const getHomeProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const products = await productService.getHomeProducts(DEFAULT_PRODUCT_LIMIT);
+
+  const response = plainToInstance(ProductResponseDTO, products, {
+    excludeExtraneousValues: true,
+  });
+
   return sendSuccessResponse(res, response);
 };
 
@@ -126,6 +141,7 @@ const deleteProduct = async (
 
 export const ProductController = {
   getAllProducts,
+  getHomeProducts,
   getProductById,
   searchProducts,
   createProduct,

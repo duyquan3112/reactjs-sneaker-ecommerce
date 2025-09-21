@@ -54,6 +54,23 @@ class ProductService {
     }
   }
 
+  async getHomeProducts(limit: number) {
+    const cachedHomeProducts =
+      await this.productCacheService.getHomeProducts(limit);
+
+    if (cachedHomeProducts && cachedHomeProducts.length > 0) {
+      return cachedHomeProducts;
+    }
+
+    const homeProducts = await this.productRepository.findWithLimit(limit);
+
+    if (homeProducts && homeProducts.length > 0) {
+      await this.productCacheService.setHomeProducts(homeProducts, limit);
+    }
+
+    return homeProducts;
+  }
+
   async getProductById(id: string) {
     ProductHelper.validateId(id);
 
@@ -78,6 +95,12 @@ class ProductService {
       return product;
     } catch (error) {
       AppLogger.error("Error getting product by ID:", error);
+
+      if (error instanceof AppError) {
+        throw error;
+      }
+
+      // For other errors, throw internal server error
       throw new AppError(
         HttpStatusCode.INTERNAL_SERVER_ERROR,
         ErrorCode.INTERNAL_SERVER_ERROR,

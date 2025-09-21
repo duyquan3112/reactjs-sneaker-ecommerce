@@ -1,11 +1,9 @@
-import MockupData from "../../../utils/MockupData.js";
 import { OutlineButton } from "../../../components";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import PATH from "../../../routes/path.js";
 import { ProductsList } from "../../products/components";
 
-const HomeProductsList = () => {
-  const productList = MockupData.homeProductListData;
+const HomeProductsList = ({ productList }) => {
   const navigate = useNavigate();
   return (
     <div className="w-full mx-auto mt-14">

@@ -1,13 +1,16 @@
-import { Outlet } from "react-router";
-import LayoutHeaderMain from "./Header/LayoutHeaderMain.jsx";
+import { Outlet } from "react-router-dom";
+import LayoutHeader from "./Header/LayoutHeader.jsx";
 import LayoutFooter from "./Footer/LayoutFooter.jsx";
+import { ErrorBoundary } from "../../../components";
 
 function UserLayout() {
   return (
     <div className="min-h-screen flex flex-col">
-      <LayoutHeaderMain />
+      <LayoutHeader />
       <main className="flex-1">
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <LayoutFooter />
     </div>

@@ -8,6 +8,7 @@ import { UpdateProductDTO } from "../dtos/request/update-product.dto";
 const productRouter = Router();
 
 productRouter.get("/all", catchAsync(ProductController.getAllProducts));
+productRouter.get("/home", catchAsync(ProductController.getHomeProducts));
 productRouter.get("/:id", catchAsync(ProductController.getProductById));
 productRouter.post(
   "/create",

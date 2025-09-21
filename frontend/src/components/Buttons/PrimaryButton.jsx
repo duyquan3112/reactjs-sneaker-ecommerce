@@ -1,4 +1,4 @@
-import { classMerge } from "../../utils/twMerge.js";
+import { classMerge } from "../../utils/TwMerge.js";
 
 const PrimaryButton = ({
   children,
