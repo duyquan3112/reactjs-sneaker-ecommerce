@@ -1,5 +1,3 @@
-import { Document } from "mongoose";
-
 export interface IProductVariant {
   sku: string;
   attributes: Record<string, string | number>;

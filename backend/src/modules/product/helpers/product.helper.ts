@@ -1,20 +1,20 @@
 import {
   ErrorCode,
-  HttpStatusCode,
+  HttpStatusCode
 } from "../../../constants/http-status-code.constant";
 import { AppError } from "../../../utils/app-error.util";
 import { AppLogger } from "../../../utils/app-logger.util";
 import {
   CreateProductDTO,
-  ICreateProductVariantDTO,
+  ICreateProductVariantDTO
 } from "../dtos/request/create-product.dto";
 import {
   IUpdateProductVariantDTO,
-  UpdateProductDTO,
+  UpdateProductDTO
 } from "../dtos/request/update-product.dto";
 import {
   IProductVariant,
-  ProductVariant,
+  ProductVariant
 } from "../interfaces/product-variant.interface";
 import { Product } from "../interfaces/product.interface";
 
@@ -78,7 +78,7 @@ export const generateSKU = (
             isNaN(+char) ? char[0].toUpperCase() : char.toUpperCase()
           )
           .join("");
-  slugSplit;
+
   const colorCode = String(attributes.color).replace(/\s+/g, "").toUpperCase();
   const sizeCode = String(attributes.size).toUpperCase();
 
@@ -151,9 +151,9 @@ const buildProductFromDTO = (data: CreateProductDTO): Product => {
             data.brand ?? "",
             slug,
             variant.attributes
-          ),
+          )
         })
-    ),
+    )
   });
 };
 
@@ -181,9 +181,9 @@ const buildUpdatedProductData = (
             updateData.brand ?? currentProduct.brand ?? "",
             slug,
             variant.attributes
-          ),
+          )
         })
-    ),
+    )
   });
 };
 
@@ -193,5 +193,5 @@ export const ProductHelper = {
   generateSlug,
   validateId,
   buildProductFromDTO,
-  buildUpdatedProductData,
+  buildUpdatedProductData
 };

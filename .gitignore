@@ -9,7 +9,7 @@ backend/dist/
 backend/package-lock.json
 
 # Ignore .env file
-.env
+.env.*
 
 backend/tutorial.md
 

@@ -17,6 +17,8 @@ export interface IProductResponseDTO {
   name: string;
   brand: string;
   basePrice: number;
+  baseComparePrice?: number;
+  image: string;
   images: string[];
   categories: string[];
   attributesTemplate: Record<string, (string | number)[]>;
@@ -68,6 +70,14 @@ export class ProductResponseDTO implements IProductResponseDTO {
   basePrice: number;
 
   @Expose()
+  baseComparePrice?: number;
+
+  @Expose()
+  @Transform(({ obj }) => obj.images[0] ?? null)
+  image: string;
+
+  @Expose()
+  @Transform(({ value }) => value ?? [])
   images: string[];
 
   @Expose()

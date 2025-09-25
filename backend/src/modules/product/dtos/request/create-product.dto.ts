@@ -8,7 +8,7 @@ import {
   Min,
   ValidateNested,
   IsNotEmpty,
-  IsEnum,
+  IsEnum
 } from "class-validator";
 import { StatusTypes } from "../../interfaces/product.interface";
 
@@ -16,6 +16,7 @@ export interface ICreateProductDTO {
   name: string;
   brand: string;
   basePrice: number;
+  baseComparePrice: number;
   images: string[];
   categories: string[];
   variants: ICreateProductVariantDTO[];
@@ -50,6 +51,11 @@ export class CreateProductDTO implements ICreateProductDTO {
   @Min(0)
   @IsNotEmpty()
   basePrice: number;
+
+  @Type(() => Number)
+  @IsNumber()
+  @Min(0)
+  baseComparePrice: number;
 
   @IsArray()
   @IsString({ each: true })

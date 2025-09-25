@@ -4,7 +4,7 @@ export enum StatusTypes {
   ACTIVE = "ACTIVE",
   OUT_OF_STOCK = "OUT-OF-STOCK",
   DRAFT = "DRAFT",
-  ARCHIVED = "ARCHIVED",
+  ARCHIVED = "ARCHIVED"
 }
 
 export interface IProduct {
@@ -12,6 +12,7 @@ export interface IProduct {
   slug: string;
   brand: string;
   basePrice: number;
+  baseComparePrice: number;
   shortDescription?: string;
   fullDescription?: string;
   images: string[];
@@ -27,6 +28,7 @@ export class Product implements IProduct {
   slug: string;
   brand: string;
   basePrice: number;
+  baseComparePrice: number;
   shortDescription?: string;
   fullDescription?: string;
   images: string[];
@@ -41,6 +43,7 @@ export class Product implements IProduct {
     this.slug = data.slug;
     this.brand = data.brand;
     this.basePrice = data.basePrice;
+    this.baseComparePrice = data.baseComparePrice;
     this.shortDescription = data.shortDescription;
     this.fullDescription = data.fullDescription;
     this.images = data.images;
@@ -54,7 +57,7 @@ export class Product implements IProduct {
   copyWith(data: Partial<IProduct>): Product {
     return new Product({
       ...this,
-      ...data,
+      ...data
     });
   }
 }
