@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PaginationButton from "./PaginationButton.jsx";
 import { useWindowSize } from "../../hooks";
 import ChangePageButton from "./ChangePageButton.jsx";
@@ -8,7 +8,7 @@ const PaginationList = ({
   totalPages,
   onPageChange,
   initialPage = 1,
-  isFetching = false,
+  isFetching = false
 }) => {
   const [currentPage, setCurrentPage] = useState(initialPage);
   const { width } = useWindowSize();

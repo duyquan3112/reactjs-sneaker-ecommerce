@@ -1,3 +1,5 @@
+import AppConfig from "../config/AppConfig";
+
 const AppLogger = {
   info: (message, ...args) => {
     log("info", message, ...args);
@@ -14,7 +16,7 @@ const AppLogger = {
 };
 
 const log = (level, message, ...args) => {
-  if (process.env.NODE_ENV === "development") {
+  if (AppConfig.env === "development") {
     console.log(`[${level}] ${message}`, ...args);
   }
 };

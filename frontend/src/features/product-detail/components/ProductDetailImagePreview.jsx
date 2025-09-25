@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const ImagePreview = ({ images }) => {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   return (
-    <div className="flex flex-col w-full lg:w-2/3 h-full gap-8 items-center justify-center">
+    <div className="flex flex-col w-full lg:w-[50%] h-full gap-8 items-center justify-center">
       <div className="relative w-full h-full aspect-[16/9]">
         <div className="absolute inset-0">
           {images.map((imgage, index) => {
@@ -45,4 +45,4 @@ const ImagePreview = ({ images }) => {
   );
 };
 
-export default ImagePreview;
+export default React.memo(ImagePreview);

@@ -5,7 +5,7 @@ import AppConstants from "../../../../constants/AppConstants";
 
 const LayoutHeaderMobileMenuDrawer = ({
   isMobileNavBarOpen,
-  handleOpenMobileNavBar,
+  handleOpenMobileNavBar
 }) => {
   const mainCategories = AppConstants.mainCategories;
 
@@ -44,7 +44,7 @@ const LayoutHeaderMobileMenuDrawer = ({
           </div>
         </div>
         <nav className="flex flex-col space-y-4 p-4">
-          {mainCategories.map((cat, index) => (
+          {mainCategories.map((cat) => (
             <Link
               key={cat.index}
               to={cat.route}

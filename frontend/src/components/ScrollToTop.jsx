@@ -8,14 +8,14 @@ const ScrollToTop = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "instant",
+      behavior: "instant"
     });
   }, []);
 
   useEffect(() => {
     // Scroll to top when pathname changes
     resetWindowScrollPosition();
-  }, [pathname]);
+  }, [pathname, resetWindowScrollPosition]);
 
   useEffect(() => {
     window.onbeforeunload = resetWindowScrollPosition;

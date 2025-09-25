@@ -2,33 +2,35 @@ import MockupData from "../../../utils/MockupData.js";
 import {
   PaginationList,
   PageBanner,
-  CircularLoading,
+  CircularLoading
 } from "../../../components";
 import { lazy, useState, useEffect } from "react";
 import useProducts from "../hooks/useProducts";
 import AppConstants from "../../../constants/AppConstants.js";
 import { useDebounce } from "../../../hooks";
 import { ScrollUtil } from "../../../utils";
+import { useSearchParams } from "react-router-dom";
 // Lazy load components
 const ProductsFilter = lazy(() => import("../components/ProductsFilter.jsx"));
 const ProductsList = lazy(() => import("../components/ProductsList.jsx"));
 
 const ProductsPage = () => {
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [shouldScroll, setShouldScroll] = useState(false);
-  const debouncedPage = useDebounce(page, 350);
+  const pageParam = parseInt(searchParams.get("page")) || 1;
+  const debouncedPage = useDebounce(pageParam, 350);
   const [bannerHeight, setBannerHeight] = useState(0);
 
   const {
     data: response,
     isPending,
     isError,
-    isFetching,
+    isFetching
   } = useProducts({
     params: {
       pageSize: AppConstants.defaultPageSize,
-      page: debouncedPage,
-    },
+      page: debouncedPage
+    }
   });
 
   useEffect(() => {
@@ -47,7 +49,7 @@ const ProductsPage = () => {
   const productList = response?.data || [];
 
   const handlePageChange = (page) => {
-    setPage(page);
+    setSearchParams({ page });
     setShouldScroll(true);
   };
 
@@ -73,7 +75,7 @@ const ProductsPage = () => {
             <PaginationList
               totalPages={20}
               onPageChange={handlePageChange}
-              initialPage={page}
+              initialPage={pageParam}
               isFetching={isFetching}
             />
           </div>
