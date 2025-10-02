@@ -6,8 +6,8 @@ import HomeCustomerFeedback from "./HomeCustomerFeedback.jsx";
 const HomeProductsView = ({ productList }) => {
   return (
     <div className="w-full flex flex-col gap-8 pt-14 pb-14">
-      <div className="w-[80%] mx-auto">
-        <HomeProductsGroup />
+      <HomeProductsGroup />
+      <div className="w-full md:w-[80%] mx-auto">
         <HomeProductsList productList={productList} />
       </div>
       <HomeNewArrivalSection />

@@ -6,3 +6,5 @@ export { default as ProductVariantSelect } from "./ProductVariantSelect.jsx";
 export { default as ProductSizeVariant } from "./ProductSizeVariant.jsx";
 export { default as ProductColorVariant } from "./ProductColorVariant.jsx";
 export { default as BaseVariant } from "./BaseVariant.jsx";
+export { default as ProductAction } from "./ProductAction.jsx";
+export { default as ProductAdditionData } from "./ProductAdditionData.jsx";

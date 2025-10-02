@@ -12,7 +12,7 @@ const HomeProductsGroup = () => {
         </p>
       </div>
       <div className="w-full mt-4">
-        <div className="flex gap-5 w-full overflow-x-auto">
+        <div className="flex gap-5 w-full overflow-x-auto px-3 sm:px-4">
           {productLineData.map((productLine) => (
             <div key={productLine.id} className="w-full">
               <ProductLineCard

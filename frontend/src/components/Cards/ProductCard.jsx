@@ -9,44 +9,54 @@ const ProductCard = ({
   imageClassName = "",
   contentClassName = "",
   titleClassName = "",
-  descriptionClassName = "",
   priceClassName = "",
-  comparePriceClassName = ""
+  comparePriceClassName = "",
 }) => {
   return (
     <button
       className={classMerge(
-        "flex flex-col w-full min-w-[12rem] shadow-sm hover:shadow-md rounded-md overflow-hidden",
+        "group flex flex-col w-full min-w-0 shadow-sm hover:shadow-md rounded-md overflow-hidden",
         className
       )}
       onClick={onClick}
     >
-      <div className={classMerge("w-full aspect-[3/4]", imageClassName)}>
+      <div
+        className={classMerge(
+          "w-full aspect-[3/4] overflow-hidden",
+          imageClassName
+        )}
+      >
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-center object-cover rounded-tl-md rounded-tr-md group-hover:scale-105 transition-all duration-300"
         />
       </div>
       <div
         className={classMerge(
-          "flex-1 w-full flex flex-col items-start justify-between gap-2 bg-gray-100 p-2",
+          "flex-1 w-full flex flex-col items-start justify-between gap-2 bg-gray-100 p-2 rounded-bl-md rounded-br-md",
           contentClassName
         )}
       >
         <p
           className={classMerge(
-            "text-md font-bold truncate overflow-ellipsis",
+            "text-md font-bold max-w-full truncate",
             titleClassName
           )}
         >
           {product.name}
         </p>
-        <p
-          className={classMerge("text-sm text-gray-500", descriptionClassName)}
-        >
-          {product.shortDescription}
-        </p>
+        {/* <div className="flex text-start items-start">
+          <p
+            className={classMerge(
+              "text-sm text-gray-500",
+              descriptionClassName
+            )}
+          >
+            {product.shortDescription}
+          </p>
+        </div> */}
+
         <p className="text-sm space-x-2">
           <span
             className={classMerge("text-black font-semibold", priceClassName)}

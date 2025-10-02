@@ -72,6 +72,8 @@ const AppConstants = {
   ],
   mobileWidth: 640,
   defaultPageSize: 12,
+  maxProductQuantity: 9999,
+  minProductQuantity: 1,
 };
 
 export default AppConstants;

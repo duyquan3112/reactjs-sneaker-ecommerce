@@ -20,3 +20,6 @@ export { default as PageBanner } from "./PageBanner.jsx";
 export { default as ScrollToTop } from "./ScrollToTop.jsx";
 export { default as CircularLoading } from "./Loading/CircularLoading.jsx";
 export { default as ErrorBoundary } from "./ErrorBoundary.jsx";
+
+//Divider
+export { default as LineDivider } from "./Divider/LineDivider.jsx";
