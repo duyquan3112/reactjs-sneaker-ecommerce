@@ -30,3 +30,35 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
+
+/* Product Description Styling */
+.product-description {
+  @apply prose prose-sm max-w-none text-gray-700;
+}
+
+/* Style for <figure>, <img>, and <figcaption> inside description */
+.product-description figure {
+  @apply flex flex-col items-center text-center my-8;
+}
+
+.product-description img {
+  @apply block max-w-full md:max-w-[80%] lg:max-w-[70%] h-auto mx-auto rounded-xl shadow-md;
+}
+
+.product-description figcaption {
+  @apply italic text-gray-500 mt-3 text-sm text-center;
+}
+
+/* Style for <table> in description */
+.product-description table {
+  @apply border-collapse w-full my-6 text-sm;
+}
+
+.product-description th,
+.product-description td {
+  @apply border border-gray-300 px-4 py-2;
+}
+
+.product-description th {
+  @apply bg-gray-100 font-semibold;
+}

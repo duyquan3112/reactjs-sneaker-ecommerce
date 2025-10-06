@@ -1,13 +1,17 @@
 import { useSearchParams } from "react-router-dom";
-import { NotFoundPage, CircularLoading } from "../../../components";
+import {
+  NotFoundPage,
+  CircularLoading,
+  LineDivider,
+} from "../../../components";
 import MockupData from "../../../utils/MockupData.js";
 import { lazy, useMemo } from "react";
 import useProductDetail from "../hooks/useProductDetail";
 import { VariantSelectionProvider } from "../providers/index.js";
-
-const ProductDetailData = lazy(() =>
-  import("../components/ProductDetailData.jsx")
-);
+import {
+  ProductDetailData,
+  ProductFullDescription,
+} from "../components/index.js";
 
 const ProductDetailPage = () => {
   const [searchParams] = useSearchParams();
@@ -17,7 +21,7 @@ const ProductDetailPage = () => {
     data: response,
     isPending,
     isError,
-    error
+    error,
   } = useProductDetail(productId);
   const product = response?.data;
 
@@ -37,6 +41,8 @@ const ProductDetailPage = () => {
           <VariantSelectionProvider>
             <ProductDetailData product={product} />
           </VariantSelectionProvider>
+          <LineDivider />
+          <ProductFullDescription description={product.fullDescription} />
         </div>
       )}
     </>

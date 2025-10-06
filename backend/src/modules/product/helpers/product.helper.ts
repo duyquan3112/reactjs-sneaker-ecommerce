@@ -1,22 +1,23 @@
 import {
   ErrorCode,
-  HttpStatusCode
+  HttpStatusCode,
 } from "../../../constants/http-status-code.constant";
 import { AppError } from "../../../utils/app-error.util";
 import { AppLogger } from "../../../utils/app-logger.util";
 import {
   CreateProductDTO,
-  ICreateProductVariantDTO
+  ICreateProductVariantDTO,
 } from "../dtos/request/create-product.dto";
 import {
   IUpdateProductVariantDTO,
-  UpdateProductDTO
+  UpdateProductDTO,
 } from "../dtos/request/update-product.dto";
 import {
   IProductVariant,
-  ProductVariant
+  ProductVariant,
 } from "../interfaces/product-variant.interface";
 import { Product } from "../interfaces/product.interface";
+import sanitizeHtml from "sanitize-html";
 
 /**
  * Generate attribute template from variants
@@ -138,10 +139,16 @@ const buildProductFromDTO = (data: CreateProductDTO): Product => {
     : {};
 
   const slug = ProductHelper.generateSlug(data.name);
+  const fullDescription = data.fullDescription
+    ? sanitizeHtml(data.fullDescription, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+      })
+    : "";
 
   return new Product({
     ...data,
     attributesTemplate,
+    fullDescription,
     slug,
     variants: data.variants.map(
       (variant) =>
@@ -151,9 +158,9 @@ const buildProductFromDTO = (data: CreateProductDTO): Product => {
             data.brand ?? "",
             slug,
             variant.attributes
-          )
+          ),
         })
-    )
+    ),
   });
 };
 
@@ -168,10 +175,16 @@ const buildUpdatedProductData = (
   const slug = ProductHelper.generateSlug(
     updateData.name ?? currentProduct.name
   );
+  const fullDescription = updateData.fullDescription
+    ? sanitizeHtml(updateData.fullDescription, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+      })
+    : currentProduct.fullDescription;
 
   return currentProduct.copyWith({
     ...updateData,
     attributesTemplate,
+    fullDescription,
     slug,
     variants: updateData.variants?.map(
       (variant) =>
@@ -181,9 +194,9 @@ const buildUpdatedProductData = (
             updateData.brand ?? currentProduct.brand ?? "",
             slug,
             variant.attributes
-          )
+          ),
         })
-    )
+    ),
   });
 };
 
@@ -193,5 +206,5 @@ export const ProductHelper = {
   generateSlug,
   validateId,
   buildProductFromDTO,
-  buildUpdatedProductData
+  buildUpdatedProductData,
 };

@@ -8,3 +8,4 @@ export { default as ProductColorVariant } from "./ProductColorVariant.jsx";
 export { default as BaseVariant } from "./BaseVariant.jsx";
 export { default as ProductAction } from "./ProductAction.jsx";
 export { default as ProductAdditionData } from "./ProductAdditionData.jsx";
+export { default as ProductFullDescription } from "./ProductFullDescription.jsx";
