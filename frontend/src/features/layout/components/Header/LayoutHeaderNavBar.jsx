@@ -2,10 +2,10 @@ import { Link, NavLink } from "react-router-dom";
 import {
   HiOutlineUserCircle,
   HiOutlineShoppingBag,
-  HiMiniBars3BottomRight,
+  HiMiniBars3BottomRight
 } from "react-icons/hi2";
-import { SearchBar } from "../../../../components";
-import { useState } from "react";
+import { AppModal, SearchBar } from "../../../../components";
+import { useRef, useState } from "react";
 import LayoutCartDrawer from "../Drawers/LayoutCartDrawer.jsx";
 import AppConstants from "../../../../constants/AppConstants.js";
 import LayoutMobileMenuDrawer from "../Drawers/LayoutMobileMenuDrawer.jsx";
@@ -13,6 +13,8 @@ import PATH from "../../../../routes/path.js";
 
 function LayoutNavBar() {
   const mainCategories = AppConstants.mainCategories;
+
+  const signInRef = useRef();
 
   const [isCartDrawerOpen, setIsCartDrawerOpen] = useState(false);
 
@@ -26,8 +28,15 @@ function LayoutNavBar() {
     setIsMobileNavBarOpen((isMobileNavBarOpen) => !isMobileNavBarOpen);
   };
 
+  const handleOpenSignInModal = () => {
+    signInRef.current.showModal();
+  };
+
+  const isLoggedIn = false;
+
   return (
     <>
+      <AppModal children={<div>Sign In</div>} ref={signInRef} />
       <nav className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link
           to={PATH.HOME}
@@ -57,9 +66,18 @@ function LayoutNavBar() {
           ))}
         </div>
         <div className="flex items-center gap-6">
-          <Link to="/profile">
-            <HiOutlineUserCircle className="h-7 w-7 text-icon-gray md:hover:text-black md:hover:scale-105" />
-          </Link>
+          {isLoggedIn ? (
+            <Link to={``}>
+              <HiOutlineUserCircle className="h-7 w-7 text-icon-gray md:hover:text-black md:hover:scale-105" />
+            </Link>
+          ) : (
+            <button
+              className="rounded text-sm font-medium hover:bg-gray-100/80 hover:shadow-sm px-3 py-2"
+              onClick={handleOpenSignInModal}
+            >
+              Sign In
+            </button>
+          )}
           <button onClick={handleToggleCartDrawer} className="relative">
             <HiOutlineShoppingBag className="h-6 w-6 text-icon-gray  md:hover:text-black md:hover:scale-105" />
             <span className="absolute -top-1 bg-red-600 text-white text-xs rounded-full px-2 py-0.5">

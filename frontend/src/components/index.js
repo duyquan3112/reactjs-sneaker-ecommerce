@@ -21,5 +21,8 @@ export { default as ScrollToTop } from "./ScrollToTop.jsx";
 export { default as CircularLoading } from "./Loading/CircularLoading.jsx";
 export { default as ErrorBoundary } from "./ErrorBoundary.jsx";
 
-//Divider
+// Divider
 export { default as LineDivider } from "./Divider/LineDivider.jsx";
+
+// Modal
+export { default as AppModal } from "./Modals/AppModal.jsx";
