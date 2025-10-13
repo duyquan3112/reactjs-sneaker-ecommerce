@@ -9,25 +9,28 @@ export default defineConfig([
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     plugins: { js },
     extends: ["js/recommended"],
-    languageOptions: { globals: globals.node },
+    languageOptions: { globals: globals.node }
   },
   tseslint.configs.recommended,
   {
     files: ["**/*.json"],
     plugins: { json },
     language: "json/json",
-    extends: ["json/recommended"],
+    extends: ["json/recommended"]
   },
   {
     files: ["**/*.jsonc"],
     plugins: { json },
     language: "json/jsonc",
-    extends: ["json/recommended"],
+    extends: ["json/recommended"]
   },
   {
     rules: {
-      "no-unused-vars": "warn",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "off",
       "no-undef": "warn",
-    },
-  },
+      "@typescript-eslint/no-explicit-any": "off",
+      "prefer-const": "warn"
+    }
+  }
 ]);

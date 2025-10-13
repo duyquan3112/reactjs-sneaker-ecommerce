@@ -1,21 +1,18 @@
 import {
   ErrorCode,
-  HttpStatusCode,
+  HttpStatusCode
 } from "../../../constants/http-status-code.constant";
 import { AppError } from "../../../utils/app-error.util";
 import { AppLogger } from "../../../utils/app-logger.util";
 import {
   CreateProductDTO,
-  ICreateProductVariantDTO,
+  CreateProductVariantDTO
 } from "../dtos/request/create-product.dto";
 import {
-  IUpdateProductVariantDTO,
-  UpdateProductDTO,
+  UpdateProductVariantDTO,
+  UpdateProductDTO
 } from "../dtos/request/update-product.dto";
-import {
-  IProductVariant,
-  ProductVariant,
-} from "../interfaces/product-variant.interface";
+import { ProductVariant } from "../interfaces/product-variant.interface";
 import { Product } from "../interfaces/product.interface";
 import sanitizeHtml from "sanitize-html";
 
@@ -27,9 +24,9 @@ import sanitizeHtml from "sanitize-html";
  */
 export const genAttributeTemplateFromVariant = (
   variants:
-    | IProductVariant[]
-    | ICreateProductVariantDTO[]
-    | IUpdateProductVariantDTO[]
+    | ProductVariant[]
+    | CreateProductVariantDTO[]
+    | UpdateProductVariantDTO[]
 ): Record<string, (string | number)[]> => {
   const attributesTemplate: Record<string, (string | number)[]> = {};
   if (variants) {
@@ -141,7 +138,7 @@ const buildProductFromDTO = (data: CreateProductDTO): Product => {
   const slug = ProductHelper.generateSlug(data.name);
   const fullDescription = data.fullDescription
     ? sanitizeHtml(data.fullDescription, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"])
       })
     : "";
 
@@ -158,9 +155,9 @@ const buildProductFromDTO = (data: CreateProductDTO): Product => {
             data.brand ?? "",
             slug,
             variant.attributes
-          ),
+          )
         })
-    ),
+    )
   });
 };
 
@@ -177,7 +174,7 @@ const buildUpdatedProductData = (
   );
   const fullDescription = updateData.fullDescription
     ? sanitizeHtml(updateData.fullDescription, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"])
       })
     : currentProduct.fullDescription;
 
@@ -194,9 +191,9 @@ const buildUpdatedProductData = (
             updateData.brand ?? currentProduct.brand ?? "",
             slug,
             variant.attributes
-          ),
+          )
         })
-    ),
+    )
   });
 };
 
@@ -206,5 +203,5 @@ export const ProductHelper = {
   generateSlug,
   validateId,
   buildProductFromDTO,
-  buildUpdatedProductData,
+  buildUpdatedProductData
 };

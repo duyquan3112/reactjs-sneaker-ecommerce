@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ndquan3112
+      POSTGRES_PASSWORD: Quannd31122002
+      POSTGRES_DB: ecommerce-db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 8080:5432
+
+volumes:
+  pgdata:

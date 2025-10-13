@@ -11,8 +11,9 @@ import { UpdateProductDTO } from "../dtos/request/update-product.dto";
 import { AppLogger } from "../../../utils/app-logger.util";
 import { DEFAULT_PRODUCT_LIMIT } from "../../../constants/app.constant";
 import { IProductCacheService } from "../cache/product-cache.service";
+import { IProductService } from "../interfaces/product-service.interface";
 
-class ProductService {
+export class ProductService implements IProductService {
   private readonly productRepository: IProductRepository;
   private readonly productCacheService: IProductCacheService;
 
@@ -226,5 +227,3 @@ class ProductService {
     }
   }
 }
-
-export default ProductService;

@@ -1,29 +1,41 @@
 import { Router } from "express";
 import { catchAsync } from "../../../middlewares/error-handler.middleware";
-import { ProductController } from "../controllers/product.controller";
 import { validateDto } from "../../../middlewares/validators.middleware";
 import { CreateProductDTO } from "../dtos/request/create-product.dto";
 import { UpdateProductDTO } from "../dtos/request/update-product.dto";
+import { productController } from "../modules/product.module";
 
 const productRouter = Router();
 
-productRouter.get("/all", catchAsync(ProductController.getAllProducts));
-productRouter.get("/home", catchAsync(ProductController.getHomeProducts));
-productRouter.get("/:id", catchAsync(ProductController.getProductById));
+productRouter.get(
+  "/all",
+  catchAsync(productController.getAllProducts.bind(productController))
+);
+productRouter.get(
+  "/home",
+  catchAsync(productController.getHomeProducts.bind(productController))
+);
+productRouter.get(
+  "/:id",
+  catchAsync(productController.getProductById.bind(productController))
+);
 productRouter.post(
   "/create",
   validateDto(CreateProductDTO),
-  catchAsync(ProductController.createProduct)
+  catchAsync(productController.createProduct.bind(productController))
 );
 productRouter.patch(
   "/update/:id",
   validateDto(UpdateProductDTO),
-  catchAsync(ProductController.updateProduct)
+  catchAsync(productController.updateProduct.bind(productController))
 );
-productRouter.get("/search", catchAsync(ProductController.searchProducts));
+productRouter.get(
+  "/search",
+  catchAsync(productController.searchProducts.bind(productController))
+);
 productRouter.delete(
   "/delete/:id",
-  catchAsync(ProductController.deleteProduct)
+  catchAsync(productController.deleteProduct.bind(productController))
 );
 
 export default productRouter;

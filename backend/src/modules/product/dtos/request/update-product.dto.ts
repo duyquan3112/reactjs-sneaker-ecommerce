@@ -1,26 +1,3 @@
-export interface IUpdateProductVariantDTO {
-  attributes: Record<string, string | number>;
-  price: number;
-  comparePrice?: number;
-  stock: number;
-  weight?: number;
-  images?: string[];
-  available?: boolean;
-}
-
-export interface IUpdateProductDTO {
-  name?: string;
-  brand?: string;
-  basePrice?: number;
-  images?: string[];
-  categories?: string[];
-  variants?: IUpdateProductVariantDTO[];
-  shortDescription?: string;
-  fullDescription?: string;
-  tags?: string[];
-  status?: StatusTypes;
-}
-
 import {
   IsString,
   IsOptional,
@@ -31,12 +8,11 @@ import {
   IsBoolean,
   ValidateNested,
   IsEnum,
-  IsNotEmpty,
 } from "class-validator";
 import { Transform, Type } from "class-transformer";
 import { StatusTypes } from "../../interfaces/product.interface";
 
-export class UpdateProductVariantDTO implements IUpdateProductVariantDTO {
+export class UpdateProductVariantDTO {
   @IsObject()
   attributes: Record<string, string | number>;
 
@@ -72,7 +48,7 @@ export class UpdateProductVariantDTO implements IUpdateProductVariantDTO {
   available?: boolean;
 }
 
-export class UpdateProductDTO implements IUpdateProductDTO {
+export class UpdateProductDTO {
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
@@ -105,7 +81,7 @@ export class UpdateProductDTO implements IUpdateProductDTO {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => UpdateProductVariantDTO)
-  variants?: IUpdateProductVariantDTO[];
+  variants?: UpdateProductVariantDTO[];
 
   @IsOptional()
   @IsString()

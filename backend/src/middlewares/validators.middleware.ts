@@ -4,7 +4,7 @@ import { validate } from "class-validator";
 import { AppError } from "../utils/app-error.util";
 import {
   ErrorCode,
-  HttpStatusCode,
+  HttpStatusCode
 } from "../constants/http-status-code.constant";
 
 export function validateDto(dtoClass: any) {

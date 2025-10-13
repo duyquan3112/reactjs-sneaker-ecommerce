@@ -1,12 +1,13 @@
 import "reflect-metadata";
 import express from "express";
 import config from "./config/config";
-import connectDB from "./config/mongo-database";
+import connectMongoDB from "./config/mongo-database";
 import appRouter from "./routes/app.routes";
 import { errorHandler } from "./middlewares/error-handler.middleware";
 import { initializeRedis } from "./cache/redis/redis.client";
 import { AppLogger } from "./utils/app-logger.util";
 import cors from "cors";
+import connectPostgresDB from "./config/postgres-database";
 
 //init app
 const app = express();
@@ -14,7 +15,7 @@ app.use(
   cors({
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
+    credentials: true
   })
 );
 app.use(express.json());
@@ -27,7 +28,8 @@ app.use(errorHandler);
 
 const initApp = async () => {
   try {
-    await connectDB();
+    await connectMongoDB();
+    await connectPostgresDB();
     await initializeRedis();
   } catch (error) {
     AppLogger.error("App initialization error:", error);

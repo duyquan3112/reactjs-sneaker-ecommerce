@@ -7,7 +7,7 @@ import { AppLogger } from "../utils/app-logger.util";
 // See: https://mongoosejs.com/docs/migrating_to_6.html#strictquery-is-removed-and-replaced-by-strict
 mongoose.set("strictQuery", false);
 
-const connectDB = async (): Promise<void> => {
+const connectMongoDB = async (): Promise<void> => {
   const connectionString = config.mongoUri;
 
   try {
@@ -19,4 +19,4 @@ const connectDB = async (): Promise<void> => {
   }
 };
 
-export default connectDB;
+export default connectMongoDB;

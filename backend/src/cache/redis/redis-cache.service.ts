@@ -15,10 +15,20 @@ export class RedisCacheService implements ICacheService {
     }
   }
 
-  async set<T>(key: string, value: T, ttl: number = 3600): Promise<void> {
+  async set<T>(key: string, value: T, ttl: number): Promise<void> {
     try {
       const serializedValue = JSON.stringify(value);
-      await redisClient.setEx(key, ttl, serializedValue);
+      // If ttl is provided and > 0, set expiration. Otherwise set key without TTL (persistent)
+      if (ttl && ttl > 0) {
+        await redisClient.set(key, serializedValue, {
+          expiration: {
+            type: "EX",
+            value: ttl
+          }
+        });
+      } else {
+        await redisClient.set(key, serializedValue);
+      }
     } catch (error) {
       AppLogger.error(`Cache set error for key ${key}:`, error);
     }

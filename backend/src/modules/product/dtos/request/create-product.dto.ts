@@ -8,34 +8,10 @@ import {
   Min,
   ValidateNested,
   IsNotEmpty,
-  IsEnum
+  IsEnum,
 } from "class-validator";
 import { StatusTypes } from "../../interfaces/product.interface";
-
-export interface ICreateProductDTO {
-  name: string;
-  brand: string;
-  basePrice: number;
-  baseComparePrice: number;
-  images: string[];
-  categories: string[];
-  variants: ICreateProductVariantDTO[];
-  shortDescription?: string;
-  fullDescription?: string;
-  tags?: string[];
-  status: StatusTypes;
-}
-
-export interface ICreateProductVariantDTO {
-  attributes: Record<string, string | number>;
-  price: number;
-  comparePrice?: number;
-  stock: number;
-  weight?: number;
-  images?: string[];
-}
-
-export class CreateProductDTO implements ICreateProductDTO {
+export class CreateProductDTO {
   @IsString()
   @Transform(({ value }) => value.trim())
   @IsNotEmpty()
@@ -73,7 +49,7 @@ export class CreateProductDTO implements ICreateProductDTO {
   @ValidateNested({ each: true })
   @Type(() => CreateProductVariantDTO)
   @IsNotEmpty()
-  variants: ICreateProductVariantDTO[];
+  variants: CreateProductVariantDTO[];
 
   @IsString()
   @IsOptional()
@@ -94,7 +70,7 @@ export class CreateProductDTO implements ICreateProductDTO {
   status: StatusTypes = StatusTypes.DRAFT;
 }
 
-export class CreateProductVariantDTO implements ICreateProductVariantDTO {
+export class CreateProductVariantDTO {
   @IsObject()
   attributes: Record<string, string | number>;
 

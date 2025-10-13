@@ -1,35 +1,7 @@
 import { Expose, Transform, Type } from "class-transformer";
 import { StatusTypes } from "../../interfaces/product.interface";
 
-export interface IProductVariantResponseDTO {
-  sku: string;
-  price: number;
-  stock: number;
-  available?: boolean;
-  images?: string[];
-  attributes: Record<string, string | number>;
-  weight?: number;
-}
-
-export interface IProductResponseDTO {
-  id: string;
-  slug: string;
-  name: string;
-  brand: string;
-  basePrice: number;
-  baseComparePrice?: number;
-  image: string;
-  images: string[];
-  categories: string[];
-  attributesTemplate: Record<string, (string | number)[]>;
-  variants: IProductVariantResponseDTO[];
-  shortDescription?: string;
-  fullDescription?: string;
-  tags?: string[];
-  status: StatusTypes;
-}
-
-export class ProductVariantResponseDTO implements IProductVariantResponseDTO {
+export class ProductVariantResponseDTO {
   @Expose()
   sku: string;
 
@@ -52,7 +24,7 @@ export class ProductVariantResponseDTO implements IProductVariantResponseDTO {
   weight?: number;
 }
 
-export class ProductResponseDTO implements IProductResponseDTO {
+export class ProductResponseDTO {
   @Expose()
   @Transform(({ obj }) => obj._id)
   id: string;
@@ -88,7 +60,7 @@ export class ProductResponseDTO implements IProductResponseDTO {
 
   @Expose()
   @Type(() => ProductVariantResponseDTO)
-  variants: IProductVariantResponseDTO[];
+  variants: ProductVariantResponseDTO[];
 
   @Expose()
   shortDescription?: string;

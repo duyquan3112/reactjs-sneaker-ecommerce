@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/app-error.util";
 import { IBaseErrorResponse } from "../interfaces/base-response.interface";
-import { ErrorCode, HttpStatusCode } from "../constants/http-status-code.constant";
+import {
+  ErrorCode,
+  HttpStatusCode
+} from "../constants/http-status-code.constant";
 
 export const errorHandler = (
   error: Error,
@@ -33,7 +36,13 @@ export const errorHandler = (
   return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(body);
 };
 
-export const catchAsync = (func: Function) => {
+export const catchAsync = (
+  func: (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => Promise<unknown> | unknown
+) => {
   return (req: Request, res: Response, next: NextFunction) => {
     Promise.resolve(func(req, res, next)).catch(next);
   };
