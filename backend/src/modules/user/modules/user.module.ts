@@ -11,4 +11,8 @@ const userRepository = new UsersRepository(
 const userService: IUserService = new UserService(userRepository);
 const userController = new UserController(userService);
 
-export default userController;
+export const userModule = {
+  userRepository,
+  userService,
+  userController
+};

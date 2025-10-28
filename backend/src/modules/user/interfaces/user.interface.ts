@@ -1,14 +1,10 @@
-export enum UserRole {
-  ADMIN = "admin",
-  USER = "user"
-}
-
+import { IRole } from "../../roles/interfaces/role.interface";
 export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
-  role: UserRole;
+  roles: IRole[];
   birthDate: number; // unix time
   phoneNumber: string;
   address: string;

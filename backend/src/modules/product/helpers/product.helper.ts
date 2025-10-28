@@ -1,28 +1,22 @@
 import {
   ErrorCode,
-  HttpStatusCode
+  HttpStatusCode,
 } from "../../../constants/http-status-code.constant";
 import { AppError } from "../../../utils/app-error.util";
 import { AppLogger } from "../../../utils/app-logger.util";
 import {
   CreateProductDTO,
-  CreateProductVariantDTO
+  CreateProductVariantDTO,
 } from "../dtos/request/create-product.dto";
 import {
   UpdateProductVariantDTO,
-  UpdateProductDTO
+  UpdateProductDTO,
 } from "../dtos/request/update-product.dto";
 import { ProductVariant } from "../interfaces/product-variant.interface";
 import { Product } from "../interfaces/product.interface";
 import sanitizeHtml from "sanitize-html";
 
-/**
- * Generate attribute template from variants
- * Example: [{ color: "red", size: 42 }, { color: "red", size: 43 }] -> { color: ["red"], size: [42, 43] }
- * @param variants - Product variants
- * @returns Attribute template
- */
-export const genAttributeTemplateFromVariant = (
+const genAttributeTemplateFromVariant = (
   variants:
     | ProductVariant[]
     | CreateProductVariantDTO[]
@@ -52,16 +46,7 @@ export const genAttributeTemplateFromVariant = (
   return attributesTemplate;
 };
 
-/**
- * Generate SKU with auto-increment suffix.
- * Example: NIKE-AM1-RED-42, NIKE-PANDA-BLUE-42
- *
- * @param brand - Brand name (e.g., "Nike")
- * @param slug - Product slug (e.g., "air-max-1")
- * @param attributes - Variant attributes (must include color and size)
- * @returns Unique SKU string
- */
-export const generateSKU = (
+const generateSKU = (
   brand: string,
   slug: string,
   attributes: Record<string, string | number>
@@ -86,14 +71,7 @@ export const generateSKU = (
 };
 
 // Generate slug from name
-/**
- * Generate slug from name
- * Example: "Nike Air Max 1" -> "nike-air-max-1"
- * @param name - Product name
- * @returns Slug string
- */
-
-export const generateSlug = (name: string): string => {
+const generateSlug = (name: string): string => {
   if (name.trim() === "") {
     throw new AppError(
       HttpStatusCode.BAD_REQUEST,
@@ -108,28 +86,6 @@ export const generateSlug = (name: string): string => {
     .replace(/[^a-z0-9-]/g, "");
 };
 
-const validateId = (id: string): void => {
-  if (!id || id.trim() === "") {
-    AppLogger.error(`Invalid ID provided: ${id}`);
-    throw new AppError(
-      HttpStatusCode.NOT_FOUND,
-      ErrorCode.NOT_FOUND,
-      "Product not found"
-    );
-  }
-
-  // Check if ID is a valid MongoDB ObjectId (24 hex characters)
-  const objectIdRegex = /^[0-9a-fA-F]{24}$/;
-  if (!objectIdRegex.test(id)) {
-    AppLogger.error(`Invalid ID provided: ${id}`);
-    throw new AppError(
-      HttpStatusCode.NOT_FOUND,
-      ErrorCode.NOT_FOUND,
-      "Product not found"
-    );
-  }
-};
-
 const buildProductFromDTO = (data: CreateProductDTO): Product => {
   const attributesTemplate = data.variants
     ? ProductHelper.genAttributeTemplateFromVariant(data.variants)
@@ -138,7 +94,7 @@ const buildProductFromDTO = (data: CreateProductDTO): Product => {
   const slug = ProductHelper.generateSlug(data.name);
   const fullDescription = data.fullDescription
     ? sanitizeHtml(data.fullDescription, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"])
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
       })
     : "";
 
@@ -155,9 +111,9 @@ const buildProductFromDTO = (data: CreateProductDTO): Product => {
             data.brand ?? "",
             slug,
             variant.attributes
-          )
+          ),
         })
-    )
+    ),
   });
 };
 
@@ -174,7 +130,7 @@ const buildUpdatedProductData = (
   );
   const fullDescription = updateData.fullDescription
     ? sanitizeHtml(updateData.fullDescription, {
-        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"])
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
       })
     : currentProduct.fullDescription;
 
@@ -191,9 +147,9 @@ const buildUpdatedProductData = (
             updateData.brand ?? currentProduct.brand ?? "",
             slug,
             variant.attributes
-          )
+          ),
         })
-    )
+    ),
   });
 };
 
@@ -201,7 +157,6 @@ export const ProductHelper = {
   genAttributeTemplateFromVariant,
   generateSKU,
   generateSlug,
-  validateId,
   buildProductFromDTO,
-  buildUpdatedProductData
+  buildUpdatedProductData,
 };

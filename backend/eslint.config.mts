@@ -30,7 +30,9 @@ export default defineConfig([
       "@typescript-eslint/no-unused-vars": "off",
       "no-undef": "warn",
       "@typescript-eslint/no-explicit-any": "off",
-      "prefer-const": "warn"
+      "@typescript-eslint/no-empty-object-type": "off",
+      "prefer-const": "warn",
+      "json/no-empty-keys": "off"
     }
   }
 ]);

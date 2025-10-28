@@ -73,8 +73,6 @@ export class ProductService implements IProductService {
   }
 
   async getProductById(id: string) {
-    ProductHelper.validateId(id);
-
     try {
       const cachedProduct = await this.productCacheService.getProductById(id);
 
@@ -162,8 +160,6 @@ export class ProductService implements IProductService {
   }
 
   async updateProduct(id: string, data: UpdateProductDTO) {
-    ProductHelper.validateId(id);
-
     try {
       const currentProductData = await this.getProductById(id);
       const currentProduct = new Product(currentProductData);
@@ -189,6 +185,12 @@ export class ProductService implements IProductService {
 
       return updatedProduct;
     } catch (error) {
+      // Re-throw AppError (like NOT_FOUND from getProductById) without wrapping
+      if (error instanceof AppError) {
+        throw error;
+      }
+
+      // Only wrap non-AppError exceptions (database errors)
       AppLogger.error("Error updating product:", error);
       throw new AppError(
         HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -199,8 +201,6 @@ export class ProductService implements IProductService {
   }
 
   async deleteProduct(id: string) {
-    ProductHelper.validateId(id);
-
     try {
       const deleteResult = await this.productRepository.delete(id);
 

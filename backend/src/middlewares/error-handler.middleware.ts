@@ -3,8 +3,9 @@ import { AppError } from "../utils/app-error.util";
 import { IBaseErrorResponse } from "../interfaces/base-response.interface";
 import {
   ErrorCode,
-  HttpStatusCode
+  HttpStatusCode,
 } from "../constants/http-status-code.constant";
+import { AppLogger } from "../utils/app-logger.util";
 
 export const errorHandler = (
   error: Error,
@@ -18,8 +19,8 @@ export const errorHandler = (
       error: {
         message: error.message,
         detail: error.details,
-        code: error.errorCode
-      }
+        code: error.errorCode,
+      },
     };
 
     return res.status(error.statusCode).json(body);
@@ -28,14 +29,16 @@ export const errorHandler = (
   const body: IBaseErrorResponse = {
     status: false,
     error: {
-      message: error.message,
-      code: ErrorCode.INTERNAL_SERVER_ERROR
-    }
+      message: "Something went wrong!",
+      code: ErrorCode.INTERNAL_SERVER_ERROR,
+    },
   };
+  AppLogger.error("Unexpected Error:", error);
 
   return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(body);
 };
 
+// Catch async errors, automatically wrap them in AppError
 export const catchAsync = (
   func: (
     req: Request,

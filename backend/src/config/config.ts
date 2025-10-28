@@ -7,7 +7,7 @@ const envFile = path.resolve(
 );
 
 dotenv.config({
-  path: envFile
+  path: envFile,
 });
 
 interface IConfig {
@@ -20,6 +20,10 @@ interface IConfig {
   pgDbUser: string;
   pgDbPassword: string;
   pgDbName: string;
+  jwtSecret: string;
+  jwtRefreshSecret: string;
+  jwtExp: number;
+  jwtRefreshExp: number;
 }
 
 const config: IConfig = {
@@ -31,7 +35,11 @@ const config: IConfig = {
   pgDbPort: Number(process.env.PG_DB_PORT),
   pgDbUser: process.env.PG_DB_USERNAME as string,
   pgDbPassword: process.env.PG_DB_PASSWORD as string,
-  pgDbName: process.env.PG_DB_NAME as string
+  pgDbName: process.env.PG_DB_NAME as string,
+  jwtSecret: process.env.JWT_SECRET_KEY as string,
+  jwtRefreshSecret: process.env.JWT_REFRESH_SECRET_KEY as string,
+  jwtExp: Number(process.env.JWT_EXP),
+  jwtRefreshExp: Number(process.env.JWT_REFRESH_EXP),
 };
 
 export default config;

@@ -6,6 +6,7 @@ import { IUserService } from "../interfaces/user-service.interface";
 import { CreateUserDTO } from "../dtos/request/create-user.dto";
 import { HttpStatusCode } from "../../../constants/http-status-code.constant";
 import { AppLogger } from "../../../utils/app-logger.util";
+import { UpdateUserDTO } from "../dtos/request/update-user.dto";
 
 export class UserController {
   private readonly userService: IUserService;
@@ -18,7 +19,7 @@ export class UserController {
     const users = await this.userService.getUsers();
     const response = plainToInstance(UserResponseDTO, users, {
       excludeExtraneousValues: true,
-      enableImplicitConversion: true
+      enableImplicitConversion: true,
     });
     return sendSuccessResponse(res, response);
   }
@@ -30,7 +31,7 @@ export class UserController {
     const newUser = await this.userService.createUser(body);
 
     const response = plainToInstance(UserResponseDTO, newUser, {
-      excludeExtraneousValues: true
+      excludeExtraneousValues: true,
     });
 
     return sendSuccessResponse(
@@ -47,7 +48,21 @@ export class UserController {
     const user = await this.userService.getUserById(id);
 
     const response = plainToInstance(UserResponseDTO, user, {
-      excludeExtraneousValues: true
+      excludeExtraneousValues: true,
+    });
+
+    return sendSuccessResponse(res, response);
+  }
+
+  async updateUser(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+
+    const body = plainToInstance(UpdateUserDTO, req.body);
+
+    const updatedUser = await this.userService.updateUser(id, body);
+
+    const response = plainToInstance(UserResponseDTO, updatedUser, {
+      excludeExtraneousValues: true,
     });
 
     return sendSuccessResponse(res, response);

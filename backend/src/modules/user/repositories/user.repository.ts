@@ -13,17 +13,29 @@ export class UsersRepository implements IUserRepository {
   async create(data: Partial<IUser>): Promise<IUser> {
     return this.userRepository.save(data);
   }
+
   async findById(id: string): Promise<IUser | null> {
     return this.userRepository.findOneBy({ id });
   }
+
+  async findByEmail(email: string): Promise<IUser | null> {
+    return this.userRepository.findOneBy({ email });
+  }
+
   async findAll(): Promise<IUser[]> {
     return this.userRepository.find();
   }
+
   async update(id: string, data: Partial<IUser>): Promise<IUser | null> {
     await this.userRepository.update(id, data);
     return this.userRepository.findOneBy({ id });
   }
+
   async delete(id: string): Promise<boolean> {
     return this.userRepository.delete(id).then(() => true);
+  }
+
+  async checkExistByEmail(email: string): Promise<boolean> {
+    return this.userRepository.existsBy({ email });
   }
 }

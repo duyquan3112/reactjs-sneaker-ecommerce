@@ -1,4 +1,3 @@
-import { UserRole } from "../../interfaces/user.interface";
 import { Expose, Transform } from "class-transformer";
 
 export class UserResponseDTO {
@@ -19,10 +18,9 @@ export class UserResponseDTO {
   email: string;
 
   @Expose()
-  role: UserRole;
+  roles: string[];
 
   @Expose()
-  //@Transform(({ obj }) => +obj.birthDate)
   birthDate: number; // unix time
 
   @Expose()

@@ -14,4 +14,10 @@ const productService: IProductService = new ProductService(
   productCacheService
 );
 
-export const productController = new ProductController(productService);
+const productController = new ProductController(productService);
+
+export const productModule = {
+  productRepository,
+  productService,
+  productController
+};

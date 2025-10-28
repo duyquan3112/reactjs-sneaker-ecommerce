@@ -1,5 +1,6 @@
-import { IsDate, IsEnum, IsOptional, IsString } from "class-validator";
+import { IsDate, IsOptional, IsString } from "class-validator";
 import { Transform } from "class-transformer";
+import { TransformToDate } from "../../../../common/decorators/transform.decorator";
 
 export class UpdateUserDTO {
   @IsOptional()
@@ -19,7 +20,7 @@ export class UpdateUserDTO {
 
   @IsOptional()
   @IsDate()
-  @Transform(({ value }) => value.trim())
+  @TransformToDate()
   birthDate?: Date;
 
   @IsOptional()

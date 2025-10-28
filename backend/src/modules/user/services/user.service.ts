@@ -1,9 +1,17 @@
 import { IUserRepository } from "../interfaces/user-repository.interface";
 import { CreateUserDTO } from "../dtos/request/create-user.dto";
-import { UserRole, IUser } from "../interfaces/user.interface";
 import { UpdateUserDTO } from "../dtos/request/update-user.dto";
 import { IUserService } from "../interfaces/user-service.interface";
-import { DateTimeUtil } from "../../../utils/datetime.util";
+import { User } from "../entities/user.entity";
+import { plainToInstance } from "class-transformer";
+import { UserHelper } from "../helpers/user.helper";
+import { AppError } from "../../../utils/app-error.util";
+import {
+  ErrorCode,
+  HttpStatusCode
+} from "../../../constants/http-status-code.constant";
+import { IUser } from "../interfaces/user.interface";
+import { EntityManager } from "typeorm";
 
 export class UserService implements IUserService {
   private readonly userRepository: IUserRepository;
@@ -13,41 +21,73 @@ export class UserService implements IUserService {
   }
 
   async createUser(user: CreateUserDTO) {
-    const createUserData = this.buildCreateUserFromDTO(user);
+    const createUserData = UserHelper.buildCreateUserFromDTO(user);
     return this.userRepository.create(createUserData);
   }
 
   async getUserById(id: string) {
-    return this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+
+    if (!user) {
+      throw new AppError(
+        HttpStatusCode.NOT_FOUND,
+        ErrorCode.NOT_FOUND,
+        "User not found!"
+      );
+    }
+
+    return user;
+  }
+
+  async getUserByEmail(email: string): Promise<IUser> {
+    const user = await this.userRepository.findByEmail(email);
+
+    if (!user) {
+      throw new AppError(
+        HttpStatusCode.NOT_FOUND,
+        ErrorCode.NOT_FOUND,
+        "User not found!"
+      );
+    }
+
+    return user;
   }
 
   async getUsers() {
-    return this.userRepository.findAll();
+    return await this.userRepository.findAll();
   }
 
   async updateUser(id: string, user: UpdateUserDTO) {
-    const updateUserData = this.buildUpdateUserFromDTO(user);
-    return this.userRepository.update(id, updateUserData);
+    const currentUserData = await this.getUserById(id);
+
+    if (!currentUserData) {
+      throw new AppError(
+        HttpStatusCode.NOT_FOUND,
+        ErrorCode.NOT_FOUND,
+        "User not found!"
+      );
+    }
+
+    const currentUser = plainToInstance(User, currentUserData);
+    const updateUserData = UserHelper.buildUpdateUserFromDTO(user, currentUser);
+    const updatedUser = await this.userRepository.update(id, updateUserData);
+
+    if (!updatedUser) {
+      throw new AppError(
+        HttpStatusCode.INTERNAL_SERVER_ERROR,
+        ErrorCode.INTERNAL_SERVER_ERROR,
+        "Failed to update user!"
+      );
+    }
+
+    return updatedUser;
   }
 
   async deleteUser(id: string) {
     return this.userRepository.delete(id);
   }
 
-  private buildCreateUserFromDTO(user: CreateUserDTO): Partial<IUser> {
-    return {
-      ...user,
-      role: UserRole.USER, // Default role is USER
-      birthDate: DateTimeUtil.toUnix(user.birthDate)
-    };
-  }
-
-  private buildUpdateUserFromDTO(user: UpdateUserDTO): Partial<IUser> {
-    return {
-      ...user,
-      birthDate: user.birthDate
-        ? DateTimeUtil.toUnix(user.birthDate)
-        : undefined
-    };
+  async checkExistByEmail(email: string) {
+    return this.userRepository.checkExistByEmail(email);
   }
 }
