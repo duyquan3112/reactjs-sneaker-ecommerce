@@ -23,43 +23,36 @@ import { IAccount } from "../../accounts/interfaces/account.interface";
 import { UserHelper } from "../../user/helpers/user.helper";
 
 export class AuthService implements IAuthService {
-  constructor(accountRepository: IAccountRepository, jwtService: IJwtService) {
-    this.accountRepository = accountRepository;
+  constructor(jwtService: IJwtService) {
     this.jwtService = jwtService;
   }
-  private readonly accountRepository: IAccountRepository;
+
   private readonly jwtService: IJwtService;
 
   async login(loginDTO: LoginDTO): Promise<ITokenPair> {
     // use dummy password to prevent timing attack
-    const DUMMY_PASSWORD = "DUMMY_PASSWORD";
+    const DUMMY_PASSWORD_HASHED =
+      await AuthHelper.hashPassword("DUMMY_PASSWORD");
 
     const { email, password } = loginDTO;
-
-    const isAccountExist =
-      await this.accountRepository.checkExistByEmail(email);
 
     const queryBuilder =
       PostgresDatasource.getRepository(Account).createQueryBuilder("accounts");
 
-    const account = isAccountExist
-      ? await queryBuilder
-          .addSelect("accounts.password")
-          .leftJoinAndSelect("accounts.user", "users")
-          .where("accounts.email = :email", { email })
-          .getOne()
-      : null;
+    const account = await queryBuilder
+      .addSelect("accounts.password")
+      .leftJoinAndSelect("accounts.user", "users")
+      .where("accounts.email = :email", { email })
+      .getOne();
 
-    const passwordHash = isAccountExist
-      ? account!.password
-      : await AuthHelper.hashPassword(DUMMY_PASSWORD);
+    const passwordHash = account ? account!.password : DUMMY_PASSWORD_HASHED;
 
     const isPasswordMatched = await AuthHelper.comparePassword(
       password,
       passwordHash
     );
 
-    if (!isPasswordMatched) {
+    if (!account || !isPasswordMatched) {
       throw new AppError(
         HttpStatusCode.UNAUTHORIZED,
         ErrorCode.UNAUTHORIZED,
