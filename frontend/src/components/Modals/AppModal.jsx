@@ -1,28 +1,49 @@
-import React, { forwardRef } from "react";
-import { createPortal } from "react-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from "../ui/dialog";
 
-const AppModal = forwardRef(
-  ({ children, hideDefaultCloseButton = false }, ref) => {
-    return createPortal(
-      <dialog
-        id="app-modal"
-        className="flex flex-col gap-2 px-4 py-3 bg-white rounded-lg"
-        ref={ref}
+import { Button } from "../ui/button";
+
+const AppModal = ({
+  buttonTitle,
+  buttonClassName,
+  title,
+  desciption,
+  children,
+  outsideDismissible = true,
+  onOpen
+}) => {
+  return (
+    <Dialog className="max-h-fit">
+      <DialogTrigger asChild>
+        <Button onClick={onOpen} className={buttonClassName}>
+          {buttonTitle}
+        </Button>
+      </DialogTrigger>
+      <DialogContent
+        className="max-h-[calc(100dvh-48px)] max-w-[calc(100dvw-48px)] sm:max-w-lg overflow-y-scroll"
+        onInteractOutside={
+          outsideDismissible === true
+            ? null
+            : (e) => {
+                e.preventDefault();
+              }
+        }
       >
-        {!hideDefaultCloseButton && (
-          <form method="dialog">
-            <div className="w-full flex items-center justify-center font-bold text-md text-black rounded-full">
-              <button className="h-8 w-8 flex items-center justify-center hover:bg-gray-100 hover:text-gray-500 rounded-full">
-                X
-              </button>
-            </div>
-          </form>
-        )}
+        <DialogHeader>
+          {title && <DialogTitle>{title}</DialogTitle>}
+          {desciption && <DialogDescription>{desciption}</DialogDescription>}
+        </DialogHeader>
+
         {children}
-      </dialog>,
-      document.getElementById("app-portal")
-    );
-  }
-);
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default AppModal;
